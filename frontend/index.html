@@ -131,6 +131,7 @@
                         });
                         const data = await res.json();
                         setResult(data);
+                        if (data.course_title) setCourseTitle(data.course_title);
                         setSavedCloudNotice(true);
                         fetchCloudVault();
                     } catch (err) {

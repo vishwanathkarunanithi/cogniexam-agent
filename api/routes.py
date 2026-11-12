@@ -127,7 +127,7 @@ async def upload_question_paper(file: UploadFile = File(...), course_title: str 
     # Automatically archive to cloud paper vault
     try:
         cloud_vault.save_paper_to_cloud(
-            course_title=course_title,
+            course_title=result.get("course_title", course_title),
             paper_text=text,
             analysis_result=result
         )
