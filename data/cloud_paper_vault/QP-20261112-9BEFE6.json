@@ -1,0 +1,112 @@
+{
+  "paper_id": "QP-20261112-9BEFE6",
+  "course_title": "Unit Test Distributed Systems",
+  "timestamp": "2026-11-12T22:32:27.179140",
+  "cloud_uri": "gs://cogniexam-paper-vault/QP-20261112-9BEFE6.json",
+  "total_questions": 2,
+  "total_marks": 10,
+  "bloom_index": 1.5,
+  "verdict": "Heavy Lower-Order Recall (L1/L2) - Needs more analytical and design problems.",
+  "paper_text": "1. Define CAP Theorem. [5 Marks]\n2. Explain two-phase commit consensus. [5 Marks]",
+  "analysis_result": {
+    "exam_title": "Unit Test Distributed Systems - Bloom's Audit & Answer Key",
+    "total_questions": 2,
+    "total_marks": 10,
+    "bloom_index": 1.5,
+    "verdict": "Heavy Lower-Order Recall (L1/L2) - Needs more analytical and design problems.",
+    "metrics": {
+      "total_marks": 10,
+      "distribution": {
+        "L1": {
+          "marks": 5,
+          "count": 1,
+          "percentage": 50.0,
+          "name": "Remember"
+        },
+        "L2": {
+          "marks": 5,
+          "count": 1,
+          "percentage": 50.0,
+          "name": "Understand"
+        },
+        "L3": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Apply"
+        },
+        "L4": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Analyze"
+        },
+        "L5": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Evaluate"
+        },
+        "L6": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Create"
+        }
+      },
+      "low_order_pct": 100.0,
+      "medium_order_pct": 0.0,
+      "high_order_pct": 0.0
+    },
+    "questions": [
+      {
+        "q_no": "1",
+        "question": "Define CAP Theorem. [5 Marks]",
+        "marks": 5,
+        "bloom_level": "L1",
+        "bloom_name": "Remember",
+        "action_verb": "L1",
+        "justification": "Cognitive demand calibrated at L1 (Remember) based on task complexity and action verbs.",
+        "model_answer": "Ideal model answer addressing Define CAP Theorem. [5 Marks] with relevant technical derivations, concepts, and domain principles.",
+        "rubric": [
+          {
+            "criterion": "Definition of core concepts & principles",
+            "marks": 2.0
+          },
+          {
+            "criterion": "Technical derivation / practical analysis",
+            "marks": 2.0
+          },
+          {
+            "criterion": "Accuracy, formatting & conclusions",
+            "marks": 1.0
+          }
+        ]
+      },
+      {
+        "q_no": "2",
+        "question": "Explain two-phase commit consensus. [5 Marks]",
+        "marks": 5,
+        "bloom_level": "L2",
+        "bloom_name": "Understand",
+        "action_verb": "L2",
+        "justification": "Cognitive demand calibrated at L2 (Understand) based on task complexity and action verbs.",
+        "model_answer": "Ideal model answer addressing Explain two-phase commit consensus. [5 Marks] with relevant technical derivations, concepts, and domain principles.",
+        "rubric": [
+          {
+            "criterion": "Definition of core concepts & principles",
+            "marks": 2.0
+          },
+          {
+            "criterion": "Technical derivation / practical analysis",
+            "marks": 2.0
+          },
+          {
+            "criterion": "Accuracy, formatting & conclusions",
+            "marks": 1.0
+          }
+        ]
+      }
+    ]
+  }
+}

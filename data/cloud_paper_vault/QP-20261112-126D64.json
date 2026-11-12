@@ -1,0 +1,116 @@
+{
+  "paper_id": "QP-20261112-126D64",
+  "course_title": "Unit Test Distributed Systems",
+  "timestamp": "2026-11-12T22:33:25.768930",
+  "cloud_uri": "gs://cogniexam-paper-vault/QP-20261112-126D64.json",
+  "total_questions": 2,
+  "total_marks": 10,
+  "bloom_index": 1.5,
+  "verdict": "Heavy Lower-Order Recall (L1/L2) - Needs more analytical and design problems.",
+  "paper_text": "1. Define CAP Theorem. [5 Marks]\n2. Explain two-phase commit consensus. [5 Marks]",
+  "analysis_result": {
+    "exam_title": "Unit Test Distributed Systems - Bloom's Audit & Answer Key",
+    "total_questions": 2,
+    "total_marks": 10,
+    "bloom_index": 1.5,
+    "verdict": "Heavy Lower-Order Recall (L1/L2) - Needs more analytical and design problems.",
+    "metrics": {
+      "total_marks": 10,
+      "distribution": {
+        "L1": {
+          "marks": 5,
+          "count": 1,
+          "percentage": 50.0,
+          "name": "Remember"
+        },
+        "L2": {
+          "marks": 5,
+          "count": 1,
+          "percentage": 50.0,
+          "name": "Understand"
+        },
+        "L3": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Apply"
+        },
+        "L4": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Analyze"
+        },
+        "L5": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Evaluate"
+        },
+        "L6": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Create"
+        }
+      },
+      "low_order_pct": 100.0,
+      "medium_order_pct": 0.0,
+      "high_order_pct": 0.0
+    },
+    "questions": [
+      {
+        "q_no": "1",
+        "question": "Define CAP Theorem.",
+        "marks": 5,
+        "bloom_level": "L1",
+        "bloom_name": "Remember",
+        "action_verb": "Define",
+        "justification": "Requires recalling and stating a fundamental theoretical principle in distributed systems without requiring deep analysis or application.",
+        "model_answer": "The CAP theorem, also known as Brewer's theorem, states that a distributed data store can simultaneously provide at most two of the following three guarantees: Consistency (every read receives the most recent write or an error), Availability (every non-failing node returns a non-error response without the guarantee that it contains the most recent write), and Partition Tolerance (the system continues to operate despite an arbitrary number of messages being dropped or delayed by the network between nodes).",
+        "rubric": [
+          {
+            "criterion": "Accurate statement of the theorem and Brewer's theorem context",
+            "marks": 2.0
+          },
+          {
+            "criterion": "Clear definition of Consistency",
+            "marks": 1.0
+          },
+          {
+            "criterion": "Clear definition of Availability",
+            "marks": 1.0
+          },
+          {
+            "criterion": "Clear definition of Partition Tolerance",
+            "marks": 1.0
+          }
+        ]
+      },
+      {
+        "q_no": "2",
+        "question": "Explain two-phase commit consensus.",
+        "marks": 5,
+        "bloom_level": "L2",
+        "bloom_name": "Understand",
+        "action_verb": "Explain",
+        "justification": "Requires demonstrating comprehension of the two-phase commit protocol mechanism, detailing its phases (Prepare and Commit) rather than just recalling its name.",
+        "model_answer": "The Two-Phase Commit (2PC) protocol is a distributed algorithm that coordinates all the processes that participate in a distributed atomic transaction on whether to commit or abort the transaction. It consists of two phases: 1) Prepare Phase (Phase 1): The coordinator sends a 'prepare' query to all participant nodes. Each node executes the transaction up to the point where it must generate the log record for commit, and votes by sending a 'agreed/ready' or 'abort' message back to the coordinator. 2) Commit Phase (Phase 2): If all participants vote 'agreed', the coordinator sends a 'commit' command, and participants finalize the transaction and acknowledge it. If any participant votes 'abort', the coordinator sends a 'abort' command, and all participants roll back their changes.",
+        "rubric": [
+          {
+            "criterion": "Overview and objective of the 2PC protocol",
+            "marks": 1.0
+          },
+          {
+            "criterion": "Explanation of Phase 1 (Prepare Phase / Voting)",
+            "marks": 2.0
+          },
+          {
+            "criterion": "Explanation of Phase 2 (Commit/Abort Phase)",
+            "marks": 2.0
+          }
+        ]
+      }
+    ]
+  }
+}

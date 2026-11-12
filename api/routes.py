@@ -17,6 +17,7 @@ from core.qp_analyzer import QuestionPaperAnalyzer
 from core.exam_generator import SmartExamGenerator
 from core.assessment_agent import AssessmentAgent
 from core.syllabus_parser import SyllabusParser
+from core.cloud_storage import CloudPaperVault
 
 router = APIRouter(prefix="/api")
 cloud_client = CloudAgentClient()
@@ -24,6 +25,7 @@ qp_analyzer = QuestionPaperAnalyzer(cloud_client)
 exam_generator = SmartExamGenerator(cloud_client)
 assessment_agent = AssessmentAgent(cloud_client)
 syllabus_parser = SyllabusParser()
+cloud_vault = CloudPaperVault()
 
 
 @router.get("/health")
@@ -58,6 +60,16 @@ def analyze_question_paper(req: QuestionPaperAnalysisRequest):
         paper_text=req.paper_text,
         course_title=req.course_title or "Course Assessment"
     )
+    # Automatically archive to cloud paper vault
+    try:
+        cloud_vault.save_paper_to_cloud(
+            course_title=req.course_title or "Course Assessment",
+            paper_text=req.paper_text,
+            analysis_result=result
+        )
+    except Exception as e:
+        print(f"[Notice] Cloud vault save note: {e}")
+
     return result
 
 
@@ -98,4 +110,29 @@ def evaluate_student_submission(req: StudentEvaluationRequest):
         student_answer=req.student_answer
     )
     return eval_res
+
+
+@router.get("/cloud-papers")
+def list_cloud_papers():
+    """Returns all question papers archived in cloud storage."""
+    return cloud_vault.list_saved_cloud_papers()
+
+
+@router.get("/cloud-papers/{paper_id}")
+def get_cloud_paper(paper_id: str):
+    """Retrieves a specific question paper and answer key from cloud storage."""
+    record = cloud_vault.get_paper_by_id(paper_id)
+    if not record:
+        raise HTTPException(status_code=404, detail="Paper not found in cloud storage.")
+    return record
+
+
+@router.post("/save-to-cloud")
+def save_paper_to_cloud_storage(payload: dict):
+    course_title = payload.get("course_title", "Course Assessment")
+    paper_text = payload.get("paper_text", "")
+    analysis_result = payload.get("analysis_result", {})
+    save_info = cloud_vault.save_paper_to_cloud(course_title, paper_text, analysis_result)
+    return save_info
+
 

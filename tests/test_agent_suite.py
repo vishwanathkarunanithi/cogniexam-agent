@@ -70,8 +70,18 @@ def test_backend_api():
         print(f"[FAILED] 4. Grading: {e}")
         return False
 
+    # 5. Cloud Storage Paper Vault
+    try:
+        r = requests.get(f"{SERVER_URL}/api/cloud-papers", timeout=5)
+        assert r.status_code == 200
+        vault_papers = r.json()
+        print(f"[✓] 5. Cloud Storage Paper Vault: PASSED ({len(vault_papers)} papers archived in cloud)")
+    except Exception as e:
+        print(f"[FAILED] 5. Cloud Storage: {e}")
+        return False
+
     print("\n" + "=" * 60)
-    print(" 🎉 ALL AUTOMATED TESTS PASSED SUCCESSFULLY (4/4)")
+    print(" 🎉 ALL AUTOMATED TESTS PASSED SUCCESSFULLY (5/5)")
     print("=" * 60)
     return True
 
