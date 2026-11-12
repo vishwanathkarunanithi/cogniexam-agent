@@ -343,12 +343,6 @@
                                     <span className="text-[10px] px-1.5 py-0.2 rounded bg-blue-600 text-white font-mono">{cloudPapers.length}</span>
                                 )}
                             </button>
-                            <button
-                                onClick={() => setActiveTab('cloud_arch')}
-                                className={`py-3.5 text-xs font-semibold tracking-wide uppercase border-b-2 transition-all ${activeTab === 'cloud_arch' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-400 hover:text-slate-200'}`}
-                            >
-                                Cloud-Native Architecture & Deployment
-                            </button>
                         </div>
                     </div>
 
@@ -680,72 +674,6 @@
                                         ))}
                                     </div>
                                 )}
-                            </div>
-                        )}
-
-                        {/* TAB 3: CLOUD NATIVE ARCHITECTURE & DEPLOYMENT */}
-                        {activeTab === 'cloud_arch' && (
-                            <div className="formal-panel rounded-lg p-6 max-w-4xl mx-auto space-y-6">
-                                <div>
-                                    <h2 className="text-sm font-bold text-white uppercase tracking-wider">
-                                        Cloud-Native Architecture & Deployment Specifications
-                                    </h2>
-                                    <p className="text-xs text-slate-400 mt-1">
-                                        Comprehensive architectural blueprints and continuous deployment pipelines for 100% serverless cloud hosting.
-                                    </p>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div className="formal-card p-4 rounded-lg space-y-2">
-                                        <h3 className="text-xs font-bold text-blue-400 uppercase tracking-wide">1. Compute & Application Runtime</h3>
-                                        <p className="text-xs text-slate-300 leading-relaxed">
-                                            Containerized via <strong>Docker</strong> and deployed to <strong>Google Cloud Run</strong>. Features serverless auto-scaling (0 to N instances) with stateless execution, sub-second cold starts, and zero idle costs.
-                                        </p>
-                                        <div className="text-[11px] font-mono text-slate-400 bg-slate-950 p-2 rounded">
-                                            Container: python:3.11-slim &bull; Port: 8080/8000
-                                        </div>
-                                    </div>
-
-                                    <div className="formal-card p-4 rounded-lg space-y-2">
-                                        <h3 className="text-xs font-bold text-emerald-400 uppercase tracking-wide">2. Cognitive AI Backbone</h3>
-                                        <p className="text-xs text-slate-300 leading-relaxed">
-                                            Integrated with <strong>Google Vertex AI / Gemini 3.5</strong> via high-throughput REST APIs. Executes multi-agent item authoring, Bloom's cognitive friction audits, and step-wise rubric synthesis.
-                                        </p>
-                                        <div className="text-[11px] font-mono text-slate-400 bg-slate-950 p-2 rounded">
-                                            Model: gemini-3.5-flash &bull; Status: LIVE
-                                        </div>
-                                    </div>
-
-                                    <div className="formal-card p-4 rounded-lg space-y-2">
-                                        <h3 className="text-xs font-bold text-amber-400 uppercase tracking-wide">3. Persistent Paper Repository</h3>
-                                        <p className="text-xs text-slate-300 leading-relaxed">
-                                            Archival layer utilizing <strong>Google Cloud Storage (GCS)</strong>. Every evaluated question paper, Bloom scorecard, and model answer key is automatically versioned and stored with immutable cloud URIs.
-                                        </p>
-                                        <div className="text-[11px] font-mono text-slate-400 bg-slate-950 p-2 rounded">
-                                            Bucket: gs://cogniexam-paper-vault
-                                        </div>
-                                    </div>
-
-                                    <div className="formal-card p-4 rounded-lg space-y-2">
-                                        <h3 className="text-xs font-bold text-purple-400 uppercase tracking-wide">4. Automated CI/CD Pipeline</h3>
-                                        <p className="text-xs text-slate-300 leading-relaxed">
-                                            Equipped with <strong>Google Cloud Build (`cloudbuild.yaml`)</strong> and 1-click deployment scripts (<code>deploy_gcp.ps1</code> / <code>deploy_gcp.sh</code>) for automated image compilation and zero-downtime rollouts.
-                                        </p>
-                                        <div className="text-[11px] font-mono text-slate-400 bg-slate-950 p-2 rounded">
-                                            Artifact Registry: gcr.io/$PROJECT_ID
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="formal-card p-5 rounded-lg space-y-3">
-                                    <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wide">1-Click Terminal Deployment Command</h3>
-                                    <p className="text-xs text-slate-400">
-                                        To deploy this exact project to Google Cloud Run from your PowerShell terminal:
-                                    </p>
-                                    <div className="bg-slate-950 p-3 rounded font-mono text-xs text-blue-300 border border-slate-800">
-                                        gcloud run deploy cogniexam-agent --source . --region us-central1 --allow-unauthenticated
-                                    </div>
-                                </div>
                             </div>
                         )}
                     </main>
