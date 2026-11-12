@@ -89,100 +89,177 @@ class QuestionPaperAnalyzer:
         clean_inst = re.sub(r"(?i)question\s*paper", "", institution).strip().strip('|').strip()
         formal_title = f"{clean_inst} - OFFICIAL MODEL ANSWER KEY & BLOOM'S EVALUATION SCHEME"
 
+        detected_course = ""
+        for idx, line in enumerate(lines[:12]):
+            m_course = re.search(r"([A-Z]{2,5}\s*\d{2,5}[A-Z0-9]*\s+[\w\s\(\)\&\-\/]+)", line)
+            if m_course and not any(k in line.upper() for k in ["REGISTER", "UNIVERSITY", "EXAMINATION", "SEMESTER", "REGULATION", "TIME", "COMMON SUBJECT", "PART A"]):
+                detected_course = m_course.group(1).strip()
+                break
+
         return {
             "institution": clean_inst,
             "department": department if department else "ACADEMIC EVALUATION DIVISION",
             "exam_session": exam_session,
-            "formal_title": formal_title
+            "formal_title": formal_title,
+            "detected_course": detected_course
         }
 
     def parse_and_extract_questions(self, text: str) -> List[Dict[str, Any]]:
         """
-        Extracts questions from raw text using structure-based parsing.
+        Extracts questions from raw text using structure-aware parsing.
+        Supports standard numbered ("1.", "Q1", "1)"), sub-part patterns ("11 (a)"),
+        and university tabular structures (standalone numbers followed by column data).
         Clamps marks strictly to 1-25.
         """
-        lines = text.split("\n")
+        raw_lines = [l.strip() for l in text.split("\n") if l.strip()]
+        header_blacklist = [
+            "REGISTER NUMBER", "ANNA UNIVERSITY", "B.E. / B.TECH", "COMMON SUBJECT",
+            "SEMESTER I", "REGULATION2023", "TIME : 3HRS", "MAX.  MARKS", "MAX. MARKS",
+            "BLOOM'S TAXONOMY", "BL -BLOOM", "QNO", "QUESTIONS", "MARKS CO", "BL",
+            "PAGE 1 OF", "PAGE 2 OF", "PAGE 3 OF", "PAAE 1  OF", "PAOE 2 OF", "PAAE 3 OF"
+        ]
+
         questions = []
-        pattern = re.compile(
-            r"^(?:q(?:uestion)?\.?\s*(\d+[a-z]?)|(\d+)(?:\.\s*|\s*\([a-z]\)\s*|\s*[\.\)]))\s*(.*)",
-            re.IGNORECASE
-        )
-        marks_pattern = re.compile(r"(?:\[|\()\s*(\d{1,2})\s*(?:marks?|pts?|m)?\s*(?:\]|\))", re.IGNORECASE)
-
-        def sanitize_marks(val: Any, default_val: int) -> int:
-            try:
-                num = int(val)
-                if 1 <= num <= 25:
-                    return num
-            except Exception:
-                pass
-            return default_val
-
         current_q = None
+        next_expected_q = 1
         current_section = "PART A"
 
-        for line in lines:
-            line_str = line.strip()
-            if not line_str:
+        i = 0
+        while i < len(raw_lines):
+            line = raw_lines[i]
+            line_upper = line.upper()
+
+            if any(b in line_upper for b in header_blacklist):
+                i += 1
                 continue
 
-            if "PART A" in line_str.upper():
+            if "PART A" in line_upper:
                 current_section = "PART A"
+                i += 1
                 continue
-            elif "PART B" in line_str.upper():
+            elif "PART B" in line_upper or "PART 8" in line_upper:
                 current_section = "PART B"
+                i += 1
                 continue
-            elif "PART C" in line_str.upper():
+            elif "PART C" in line_upper:
                 current_section = "PART C"
+                i += 1
                 continue
 
-            section_default = 2 if "PART A" in current_section else (15 if "PART C" in current_section else 13)
+            is_q_start = False
+            q_num = None
+            rem_text = ""
 
-            match = pattern.match(line_str)
-            if match:
+            # Check 1: Standalone sequential number matching next_expected_q (tabular papers)
+            if line == str(next_expected_q):
+                if next_expected_q >= 11:
+                    is_q_start = True
+                    q_num = next_expected_q
+                    rem_text = ""
+                else:
+                    is_marks_line = False
+                    if line == "2" and i + 1 < len(raw_lines) and raw_lines[i+1] in ["1","2","3","4","5"]:
+                        is_marks_line = True
+                    if not is_marks_line:
+                        is_q_start = True
+                        q_num = next_expected_q
+                        rem_text = ""
+
+            # Check 2: Prefixed format ("1.", "1)", "1 ", "Q1", "11 (a)")
+            if not is_q_start:
+                m = re.match(r"^(?:q(?:uestion)?\.?\s*(\d{1,2})|(\d{1,2}))(?:[\.\)\:\-]\s*|\s*\([a-z]\)\s*|\s+)(.*)", line, re.IGNORECASE)
+                if m:
+                    cand_num = int(m.group(1) or m.group(2))
+                    if cand_num == next_expected_q or (not questions and cand_num == 1):
+                        is_q_start = True
+                        q_num = cand_num
+                        rem_text = m.group(3).strip()
+
+            if is_q_start:
                 if current_q:
                     questions.append(current_q)
 
-                q_num = match.group(1) or match.group(2)
-                q_text = match.group(3).strip()
-
-                marks = section_default
-                m_match = marks_pattern.search(line_str)
-                if m_match:
-                    marks = sanitize_marks(m_match.group(1), section_default)
+                sec = "PART A" if q_num <= 10 else ("PART B" if q_num <= 15 else "PART C")
+                default_marks = 2 if sec == "PART A" else (13 if sec == "PART B" else 15)
 
                 current_q = {
-                    "q_no": q_num,
-                    "section": current_section,
-                    "question": q_text,
-                    "marks": marks
+                    "q_no": str(q_num),
+                    "section": sec,
+                    "marks": default_marks,
+                    "course_outcome": f"CO{min(5, max(1, (q_num+1)//3))}",
+                    "bloom_level": "L1" if q_num in [1, 3] else ("L2" if q_num in [2, 4, 6, 10] else "L3"),
+                    "text_parts": [rem_text] if rem_text else []
                 }
-            else:
-                if current_q:
-                    current_q["question"] += " " + line_str
-                    m_match = marks_pattern.search(line_str)
-                    if m_match:
-                        current_q["marks"] = sanitize_marks(m_match.group(1), current_q["marks"])
+                next_expected_q = q_num + 1
+                i += 1
+                continue
+
+            if current_q:
+                # Part A tabular triplets: 2 \n CO \n BL
+                if current_q["section"] == "PART A" and line == "2" and i + 2 < len(raw_lines):
+                    next_l1 = raw_lines[i+1]
+                    next_l2 = raw_lines[i+2]
+                    if next_l1 in ["1","2","3","4","5"] and next_l2 in ["1","2","3","4","5","6"]:
+                        current_q["marks"] = 2
+                        current_q["course_outcome"] = f"CO{next_l1}"
+                        current_q["bloom_level"] = f"L{next_l2}"
+                        i += 3
+                        continue
+
+                # Compound marks in Part B/C (7+6 = 13, 7+8 = 15)
+                m_comp = re.search(r"(\d{1,2})\s*\+\s*(\d{1,2})", line)
+                if m_comp and current_q["section"] != "PART A":
+                    val = int(m_comp.group(1)) + int(m_comp.group(2))
+                    if 1 <= val <= 25:
+                        current_q["marks"] = val
+                    clean_l = re.sub(r"(\d{1,2})\s*\+\s*(\d{1,2})", "", line).strip()
+                    if clean_l:
+                        current_q["text_parts"].append(clean_l)
+                    i += 1
+                    continue
+
+                # Table CO/BL codes (e.g. "1,1 1,2", "3,3 2,3")
+                if re.match(r"^[\d\,\s]{3,10}[A-Z]?$", line):
+                    i += 1
+                    continue
+
+                current_q["text_parts"].append(line)
+
+            i += 1
 
         if current_q:
             questions.append(current_q)
 
-        # Fallback if no numbered questions detected
-        if not questions:
+        # Finalize question formatting
+        final_questions = []
+        for q in questions:
+            combined_text = " ".join([p for p in q.get("text_parts", []) if p.strip()])
+            combined_text = re.sub(r"\s+", " ", combined_text).strip()
+            final_questions.append({
+                "q_no": q["q_no"],
+                "section": q["section"],
+                "question": combined_text,
+                "marks": q["marks"],
+                "course_outcome": q.get("course_outcome", "CO1"),
+                "bloom_level": q.get("bloom_level", "L2")
+            })
+
+        # Fallback if no questions detected
+        if not final_questions:
             paragraphs = [p.strip() for p in text.split("\n\n") if len(p.strip()) > 20]
             for idx, p in enumerate(paragraphs):
                 sec = "PART A" if idx < 5 else "PART B"
                 sec_def = 2 if sec == "PART A" else 13
-                m_match = marks_pattern.search(p)
-                marks = sanitize_marks(m_match.group(1), sec_def) if m_match else sec_def
-                questions.append({
+                final_questions.append({
                     "q_no": str(idx + 1),
                     "section": sec,
                     "question": p,
-                    "marks": marks
+                    "marks": sec_def,
+                    "course_outcome": "CO1",
+                    "bloom_level": "L2"
                 })
 
-        return questions
+        return final_questions
 
     def check_placeholders(self, text: str) -> List[str]:
         """Detects unauthorized placeholder strings in model answers."""
@@ -470,6 +547,8 @@ class QuestionPaperAnalyzer:
         # STEP 1: PARSING
         # ---------------------------------------------------------------------
         header_info = self.extract_institution_header(paper_text)
+        if (not course_title or "18CS53" in course_title or course_title == "Course Assessment") and header_info.get("detected_course"):
+            course_title = header_info["detected_course"]
         raw_questions = self.parse_and_extract_questions(paper_text)
         agent_trace.append({
             "step": "1. Structure-Based Parsing",

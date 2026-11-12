@@ -58,9 +58,9 @@ class CloudAgentClient:
         Sends prompt to Google Cloud Gemini LLM with exponential backoff, jitter, and multi-model failover.
         """
         if self.is_cloud_connected():
-            models_to_try = ["gemini-3.1-flash-lite", "gemini-3.5-flash-lite", "gemini-3.5-flash"]
+            models_to_try = ["gemini-flash-lite-latest", "gemini-flash-latest", "gemini-2.5-flash-lite", "gemini-pro-latest"]
             for model_name in models_to_try:
-                for attempt in range(1, 5):
+                for attempt in range(1, 3):
                     try:
                         config = {}
                         if system_instruction:
@@ -78,9 +78,9 @@ class CloudAgentClient:
                     except Exception as e:
                         err_str = str(e)
                         is_retryable = any(k in err_str for k in ["503", "429", "504", "UNAVAILABLE", "ResourceExhausted", "timeout", "high demand", "DEADLINE_EXCEEDED"])
-                        if is_retryable and attempt < 4:
-                            backoff = (1.5 ** attempt) + random.uniform(0.2, 0.9)
-                            print(f"[Retry {attempt}/4] Model {model_name} rate limit / load spike. Backoff {backoff:.2f}s...")
+                        if is_retryable and attempt < 2:
+                            backoff = 1.0 + random.uniform(0.2, 0.5)
+                            print(f"[Retry {attempt}/2] Model {model_name} rate limit. Backoff {backoff:.2f}s...")
                             time.sleep(backoff)
                             continue
                         else:
