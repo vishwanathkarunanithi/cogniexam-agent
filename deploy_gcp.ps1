@@ -12,7 +12,7 @@ if (-not $PROJECT_ID) {
     $PROJECT_ID = Read-Host "Project ID"
     gcloud config set project $PROJECT_ID
 }
-Write-Host "[✓] Active GCP Project: $PROJECT_ID" -ForegroundColor Green
+Write-Host "[OK] Active GCP Project: $PROJECT_ID" -ForegroundColor Green
 
 $REGION = "us-central1"
 $SERVICE_NAME = "cogniexam-agent"
@@ -35,5 +35,5 @@ gcloud run deploy $SERVICE_NAME `
 Write-Host "==========================================================" -ForegroundColor Green
 Write-Host " [SUCCESS] Application is now live on Google Cloud Run!" -ForegroundColor Green
 Write-Host "==========================================================" -ForegroundColor Green
-gcloud run services describe $SERVICE_NAME --region $REGION --format='value(status.url)'
+gcloud run services describe $SERVICE_NAME --region $REGION --format="value(status.url)"
 

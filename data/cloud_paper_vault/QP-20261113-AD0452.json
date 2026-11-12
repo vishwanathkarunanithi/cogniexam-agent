@@ -1,0 +1,437 @@
+{
+  "paper_id": "QP-20261113-AD0452",
+  "course_title": "18CS53 - Database Management Systems",
+  "timestamp": "2026-11-13T00:59:34.067668",
+  "cloud_uri": "gs://cogniexam-paper-vault/QP-20261113-AD0452.json",
+  "total_questions": 7,
+  "total_marks": 50,
+  "bloom_index": 4.5,
+  "verdict": "Rigorous & High-Order (L4/L5/L6 Focus) - Highly suited for advanced analytical engineering assessment.",
+  "paper_text": "VISVESVARAYA TECHNOLOGICAL UNIVERSITY, BELAGAVI\nB.E. DEGREE SEMESTER END EXAMINATIONS\nFifth Semester - Computer Science and Engineering\n18CS53 - DATABASE MANAGEMENT SYSTEMS\nTime: 3 Hours                                                     Max Marks: 50\n\nPART A - (5 x 4 = 20 Marks)\n1. State the ACID properties of a database transaction and explain the role of the write-ahead log (WAL). [4 Marks]\n2. Differentiate between B-Tree and B+ Tree index structures in terms of range query performance. [4 Marks]\n3. Define Boyce-Codd Normal Form (BCNF) and distinguish it from Third Normal Form (3NF). [4 Marks]\n4. Explain the phantom read anomaly and describe how Serializable isolation level prevents it. [4 Marks]\n5. Illustrate conflict serializability of a schedule using a precedence (serialization) graph. [4 Marks]\n\nPART B - (2 x 15 = 30 Marks)\n6. (a) Given a relational schema R(A, B, C, D, E) with Functional Dependencies F = { A->BC, CD->E, B->D, E->A }. Determine the candidate keys of R, decompose R into BCNF, and analyze if the decomposition is lossless and dependency-preserving. [15 Marks]\n7. (a) Design a comprehensive recovery protocol using Strict Two-Phase Locking (Strict 2PL) and ARIES algorithm for a distributed flight reservation system during concurrent system crashes. [15 Marks]",
+  "analysis_result": {
+    "institution_header": "VISVESVARAYA TECHNOLOGICAL UNIVERSITY, BELAGAVI - OFFICIAL MODEL ANSWER KEY & BLOOM'S EVALUATION SCHEME",
+    "institution_name": "VISVESVARAYA TECHNOLOGICAL UNIVERSITY, BELAGAVI",
+    "department": "ACADEMIC EVALUATION DIVISION",
+    "course_title": "18CS53 - Database Management Systems",
+    "exam_title": "Fifth Semester - Computer Science and Engineering",
+    "disclaimer": "FACULTY EVALUATOR GUIDANCE (STUDENT OWN-WORDS EVALUATION):\nStudents are encouraged to express technical explanations, derivations, and solutions in their own words. Evaluators must award full or proportional marks whenever the fundamental conceptual logic, necessary technical principles, and core keywords are satisfied, even if phrasing differs from the canonical solution. Refer to the 'Key Semantic Criteria for Student Own Words' outlined under each question.",
+    "total_questions": 7,
+    "total_marks": 50,
+    "bloom_index": 4.5,
+    "verdict": "Rigorous & High-Order (L4/L5/L6 Focus) - Highly suited for advanced analytical engineering assessment.",
+    "metrics": {
+      "total_marks": 50,
+      "distribution": {
+        "L1": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Remember"
+        },
+        "L2": {
+          "marks": 8,
+          "count": 2,
+          "percentage": 16.0,
+          "name": "Understand"
+        },
+        "L3": {
+          "marks": 4,
+          "count": 1,
+          "percentage": 8.0,
+          "name": "Apply"
+        },
+        "L4": {
+          "marks": 8,
+          "count": 2,
+          "percentage": 16.0,
+          "name": "Analyze"
+        },
+        "L5": {
+          "marks": 15,
+          "count": 1,
+          "percentage": 30.0,
+          "name": "Evaluate"
+        },
+        "L6": {
+          "marks": 15,
+          "count": 1,
+          "percentage": 30.0,
+          "name": "Create"
+        }
+      },
+      "low_order_pct": 16.0,
+      "medium_order_pct": 24.0,
+      "high_order_pct": 60.0
+    },
+    "questions": [
+      {
+        "q_no": "1",
+        "section": "PART A",
+        "question": "State the ACID properties of a database transaction and explain the role of the write-ahead log (WAL).",
+        "marks": 4,
+        "bloom_level": "L2",
+        "bloom_name": "Understand",
+        "action_verb": "State and Explain",
+        "justification": "Uses the verbs 'State' and 'Explain' to test comprehension of transaction properties and the write-ahead log mechanism.",
+        "model_answer": "ACID properties: Atomicity ensures all operations in a transaction complete successfully or none at all; Consistency ensures the database transitions from one valid state to another; Isolation ensures concurrent transactions execute without interfering with each other; Durability ensures once a transaction commits, its changes survive system failures. Write-Ahead Logging (WAL) is a recovery technique where all modifications are written to sequential disk log files before the actual data pages are updated on disk. This ensures atomicity and durability by enabling REDO during crash recovery and UNDO for uncommitted transactions.",
+        "rubric": [
+          {
+            "criterion": "Definition and explanation of the four ACID properties (Atomicity, Consistency, Isolation, Durability)",
+            "marks": 2.0
+          },
+          {
+            "criterion": "Explanation of the Write-Ahead Log (WAL) mechanism and its role in crash recovery",
+            "marks": 2.0
+          }
+        ],
+        "own_words_criteria": [
+          "Description of all-or-nothing execution and serializable intermediate states",
+          "Explanation of logging changes to disk prior to data page modification"
+        ],
+        "engine_used": "gemini-3.5-flash",
+        "confidence_tag": "High confidence - AI synthesized",
+        "numerical_verification": {
+          "is_numerical": false,
+          "formula_detected": null,
+          "computed_value": null,
+          "matches_canonical": true,
+          "note": "Qualitative or conceptual problem formulation."
+        },
+        "faculty_verified": "Faculty verified: No"
+      },
+      {
+        "q_no": "2",
+        "section": "PART A",
+        "question": "Differentiate between B-Tree and B+ Tree index structures in terms of range query performance.",
+        "marks": 4,
+        "bloom_level": "L4",
+        "bloom_name": "Analyze",
+        "action_verb": "Differentiate",
+        "justification": "Uses the verb 'Differentiate' to examine structural differences and their impact on range query performance.",
+        "model_answer": "B-Tree stores keys and data pointers in both internal and leaf nodes, which results in fewer keys per node and a deeper tree for the same dataset. B+ Tree stores data pointers or actual data tuples exclusively in the leaf nodes, while internal nodes store only routing keys. For range queries, B+ Trees outperform B-Trees because all leaf nodes are linked sequentially as a doubly linked list. This allows the database engine to traverse sequentially through the leaves for range scans without repeatedly traversing from the root node, unlike a B-Tree which requires expensive in-order tree traversals.",
+        "rubric": [
+          {
+            "criterion": "Structural comparison regarding data storage placement in B-Tree vs B+ Tree",
+            "marks": 2.0
+          },
+          {
+            "criterion": "Analysis of range query performance advantage using leaf node linked lists in B+ Trees",
+            "marks": 2.0
+          }
+        ],
+        "own_words_criteria": [
+          "Comparison of internal vs leaf node storage architectures",
+          "Explanation of sequential leaf traversal for range scans"
+        ],
+        "engine_used": "gemini-3.5-flash",
+        "confidence_tag": "High confidence - AI synthesized",
+        "numerical_verification": {
+          "is_numerical": false,
+          "formula_detected": null,
+          "computed_value": null,
+          "matches_canonical": true,
+          "note": "Qualitative or conceptual problem formulation."
+        },
+        "faculty_verified": "Faculty verified: No"
+      },
+      {
+        "q_no": "3",
+        "section": "PART A",
+        "question": "Define Boyce-Codd Normal Form (BCNF) and distinguish it from Third Normal Form (3NF).",
+        "marks": 4,
+        "bloom_level": "L4",
+        "bloom_name": "Analyze",
+        "action_verb": "Define and Distinguish",
+        "justification": "Uses the verbs 'Define' and 'Distinguish' to analyze and contrast the constraints of BCNF and 3NF.",
+        "model_answer": "A relation schema R is in Boyce-Codd Normal Form (BCNF) if whenever a non-trivial functional dependency X -> Y holds in R, then X is a superkey of R. A relation is in Third Normal Form (3NF) if for every functional dependency X -> Y, either X is a superkey, or Y is a prime attribute (part of a candidate key). The fundamental distinction is that 3NF permits a non-prime attribute to depend on another non-prime attribute (transitive dependency) provided the LHS is part of a candidate key, whereas BCNF eliminates all non-trivial functional dependencies where the LHS is not a superkey, making BCNF stricter.",
+        "rubric": [
+          {
+            "criterion": "Precise definition of BCNF based on superkey requirement",
+            "marks": 2.0
+          },
+          {
+            "criterion": "Distinction between BCNF and 3NF regarding prime attributes and transitive dependencies",
+            "marks": 2.0
+          }
+        ],
+        "own_words_criteria": [
+          "Definition of LHS as a superkey for BCNF compliance",
+          "Explanation of how 3NF allows prime attribute RHS exceptions"
+        ],
+        "engine_used": "gemini-3.5-flash",
+        "confidence_tag": "High confidence - AI synthesized",
+        "numerical_verification": {
+          "is_numerical": false,
+          "formula_detected": null,
+          "computed_value": null,
+          "matches_canonical": true,
+          "note": "Qualitative or conceptual problem formulation."
+        },
+        "faculty_verified": "Faculty verified: No"
+      },
+      {
+        "q_no": "4",
+        "section": "PART A",
+        "question": "Explain the phantom read anomaly and describe how Serializable isolation level prevents it.",
+        "marks": 4,
+        "bloom_level": "L2",
+        "bloom_name": "Understand",
+        "action_verb": "Explain and Describe",
+        "justification": "Uses the verbs 'Explain' and 'Describe' to demonstrate comprehension of the phantom read anomaly and serializable prevention mechanisms.",
+        "model_answer": "A phantom read anomaly occurs when a transaction executes a query returning a set of rows satisfying a search condition, and a second concurrent transaction inserts, updates, or deletes rows that affect the search condition and commits. When the first transaction re-executes the query, it sees a different set of rows (the 'phantoms'). The Serializable isolation level prevents this by using range-lock algorithms, predicate locking, or index-range locks. These mechanisms ensure that concurrent transactions cannot insert rows that fall within the search predicate range of an active query until the reading transaction completes.",
+        "rubric": [
+          {
+            "criterion": "Explanation of phantom read anomaly involving row insertions/deletions affecting active search predicates",
+            "marks": 2.0
+          },
+          {
+            "criterion": "Description of Serializable isolation prevention mechanisms (predicate locking / index range locks)",
+            "marks": 2.0
+          }
+        ],
+        "own_words_criteria": [
+          "Definition of query result set changing due to concurrent row additions",
+          "Explanation of locking predicate ranges to block inserts"
+        ],
+        "engine_used": "gemini-3.5-flash",
+        "confidence_tag": "High confidence - AI synthesized",
+        "numerical_verification": {
+          "is_numerical": false,
+          "formula_detected": null,
+          "computed_value": null,
+          "matches_canonical": true,
+          "note": "Qualitative or conceptual problem formulation."
+        },
+        "faculty_verified": "Faculty verified: No"
+      },
+      {
+        "q_no": "5",
+        "section": "PART A",
+        "question": "Illustrate conflict serializability of a schedule using a precedence (serialization) graph.",
+        "marks": 4,
+        "bloom_level": "L3",
+        "bloom_name": "Apply",
+        "action_verb": "Illustrate",
+        "justification": "Uses the verb 'Illustrate' to apply precedence graph construction to test conflict serializability.",
+        "model_answer": "A precedence graph is a directed graph G = (V, E) where vertices V correspond to committed transactions and edges E represent conflict operations between transactions. An edge Ti -> Tj is added if transaction Ti accesses data item X before Tj, and at least one of these operations is a write, and their actions conflict. A schedule is conflict serializable if and only if its precedence graph contains no directed cycles. If a cycle exists, the schedule cannot be serialized into an equivalent serial schedule.",
+        "rubric": [
+          {
+            "criterion": "Construction rules of vertices and directed conflict edges in the precedence graph",
+            "marks": 2.0
+          },
+          {
+            "criterion": "Illustration of the acyclicity condition required for conflict serializability",
+            "marks": 2.0
+          }
+        ],
+        "own_words_criteria": [
+          "Definition of transaction nodes and conflicting operation edges",
+          "Explanation of the cycle-free test for serializability"
+        ],
+        "engine_used": "gemini-3.5-flash",
+        "confidence_tag": "High confidence - AI synthesized",
+        "numerical_verification": {
+          "is_numerical": false,
+          "formula_detected": null,
+          "computed_value": null,
+          "matches_canonical": true,
+          "note": "Qualitative or conceptual problem formulation."
+        },
+        "faculty_verified": "Faculty verified: No"
+      },
+      {
+        "q_no": "6",
+        "section": "PART B",
+        "question": "Given a relational schema R(A, B, C, D, E) with Functional Dependencies F = { A->BC, CD->E, B->D, E->A }. Determine the candidate keys of R, decompose R into BCNF, and analyze if the decomposition is lossless-join and dependency-preserving.",
+        "marks": 15,
+        "bloom_level": "L5",
+        "bloom_name": "Evaluate",
+        "action_verb": "Determine, Decompose, and Analyze",
+        "justification": "Uses the verbs 'Determine', 'Decompose', and 'Analyze' to evaluate functional dependencies, execute BCNF normalization, and assess decomposition properties.",
+        "model_answer": "Step 1: Find Candidate Keys. Attributes on RHS: B, C, D, E. Attributes not on RHS: A. Since A is not on any RHS, it must be part of every candidate key. Compute closure of A+: A+ = {A, B, C, D, E}. Since A+ contains all attributes, A is a candidate key. Other attributes like E give E+ = {E, A, B, C, D}, so E is also a candidate key. Thus, candidate keys are {A} and {E}. Step 2: BCNF Decomposition. Check FDs: A->BC (A is candidate key, valid). CD->E (CD is not a superkey, violates BCNF). Decompose R into R1(C, D, E) and R2(A, B, C, D). For R1, CD->E holds, CD is candidate key for R1. For R2, check FDs: A->BC, B->D. B->D violates BCNF in R2 since B is not a superkey of R2. Decompose R2 into R3(B, D) and R4(A, B, C). Final BCNF relations: R1(C, D, E), R3(B, D), R4(A, B, C). Step 3: Lossless-Join Analysis. R1 intersect R2 = {C,D}. CD->E is a FD in F where CD is a key for R1(C,D,E). Thus, the join is lossless. Step 4: Dependency-Preservation Analysis. Check if all original FDs are preserved. A->BC (preserved in R4). CD->E (preserved in R1). B->D (preserved in R3). E->A: E and A are split across different relations (E in R1, A in R4) and no single relation contains {E, A}. Thus, E->A is not dependency-preserving.",
+        "rubric": [
+          {
+            "criterion": "Step-by-step determination of candidate keys ({A} and {E}) using attribute closure",
+            "marks": 3.0
+          },
+          {
+            "criterion": "Iterative BCNF decomposition identifying violations (CD->E, B->D) and resulting sub-relations",
+            "marks": 5.0
+          },
+          {
+            "criterion": "Lossless-join property proof using common attributes and functional dependency containment",
+            "marks": 4.0
+          },
+          {
+            "criterion": "Dependency-preservation analysis verifying whether all original FDs are checked locally",
+            "marks": 3.0
+          }
+        ],
+        "own_words_criteria": [
+          "Identification of primary candidate keys via closure computation",
+          "Stepwise elimination of BCNF violations by projecting relations",
+          "Verification of lossless join using common attribute superkeys and checking FD retention"
+        ],
+        "engine_used": "gemini-3.5-flash",
+        "confidence_tag": "High confidence - AI synthesized",
+        "numerical_verification": {
+          "is_numerical": false,
+          "formula_detected": null,
+          "computed_value": null,
+          "matches_canonical": true,
+          "note": "Qualitative or conceptual problem formulation."
+        },
+        "faculty_verified": "Faculty verified: No"
+      },
+      {
+        "q_no": "7",
+        "section": "PART B",
+        "question": "Design a comprehensive recovery protocol using Strict Two-Phase Locking (Strict 2PL) and ARIES algorithm for a distributed flight reservation system during concurrent system crashes.",
+        "marks": 15,
+        "bloom_level": "L6",
+        "bloom_name": "Create",
+        "action_verb": "Design",
+        "justification": "Uses the verb 'Design' to synthesize an end-to-end concurrency control and crash recovery protocol combining Strict 2PL and ARIES.",
+        "model_answer": "Design Architecture: 1. Concurrency Control via Strict 2PL: All transactions acquire shared (S) locks for reads and exclusive (X) locks for writes. All locks acquired by a transaction are held until the transaction explicitly commits or aborts, preventing cascading rollbacks and ensuring serializability. 2. ARIES Recovery Protocol Phases: A. Analysis Phase: Scan forward from the last checkpoint to identify dirty pages (Dirty Page Table - DPT) and active transactions (Transaction Table - TT) at the time of the crash. B. REDO Phase: Repeat history by scanning forward from the smallest recLSN in the DPT. Replay all logged actions (both committed and aborted transactions) to restore the database to its exact pre-crash state. C. UNDO Phase: Scan backward using the prevLSN chain in the Transaction Table to rollback all transactions that were active (uncommitted) at the time of the crash, writing Compensation Log Records (CLRs) to ensure idempotency.",
+        "rubric": [
+          {
+            "criterion": "Design of Strict 2PL locking mechanism holding exclusive locks until commit/abort to ensure isolation",
+            "marks": 4.0
+          },
+          {
+            "criterion": "Detailed specification of the ARIES Analysis Phase (DPT and Transaction Table reconstruction)",
+            "marks": 3.5
+          },
+          {
+            "criterion": "Detailed specification of the ARIES REDO Phase (Repeating history from smallest recLSN)",
+            "marks": 4.0
+          },
+          {
+            "criterion": "Detailed specification of the ARIES UNDO Phase (Backward scan, active transaction rollback, and CLR generation)",
+            "marks": 3.5
+          }
+        ],
+        "own_words_criteria": [
+          "Explanation of holding locks until transaction completion under Strict 2PL",
+          "Description of Analysis, REDO, and UNDO log-based recovery phases",
+          "Explanation of CLRs for preventing infinite recovery loops during crashes"
+        ],
+        "engine_used": "gemini-3.5-flash",
+        "confidence_tag": "High confidence - AI synthesized",
+        "numerical_verification": {
+          "is_numerical": false,
+          "formula_detected": null,
+          "computed_value": null,
+          "matches_canonical": true,
+          "note": "Qualitative or conceptual problem formulation."
+        },
+        "faculty_verified": "Faculty verified: No"
+      }
+    ],
+    "design_audit": {
+      "target_distribution": {
+        "L1": 15.0,
+        "L2": 25.0,
+        "L3": 30.0,
+        "L4": 15.0,
+        "L5": 10.0,
+        "L6": 5.0
+      },
+      "actual_distribution": {
+        "L1": 0.0,
+        "L2": 16.0,
+        "L3": 8.0,
+        "L4": 16.0,
+        "L5": 30.0,
+        "L6": 30.0
+      },
+      "compliance_status": "Rebalance Recommended - 3 under-represented and 2 over-represented cognitive level(s).",
+      "rebalance_suggestions": [
+        {
+          "level": "L1",
+          "status": "under_represented",
+          "actual_pct": 0.0,
+          "target_pct": 15.0,
+          "difference_pct": -15.0,
+          "recommended_stems": [
+            "State and define the foundational properties of 18CS53 - Database Management Systems.",
+            "List the primary structural components and operational constraints of 18CS53 - Database Management Systems."
+          ]
+        },
+        {
+          "level": "L2",
+          "status": "under_represented",
+          "actual_pct": 16.0,
+          "target_pct": 25.0,
+          "difference_pct": -9.0,
+          "recommended_stems": [
+            "Explain the working mechanism of 18CS53 - Database Management Systems with an illustrative block diagram.",
+            "Differentiate between 18CS53 - Database Management Systems and conventional approaches regarding latency and consistency."
+          ]
+        },
+        {
+          "level": "L3",
+          "status": "under_represented",
+          "actual_pct": 8.0,
+          "target_pct": 30.0,
+          "difference_pct": -22.0,
+          "recommended_stems": [
+            "Compute the optimal performance parameters for 18CS53 - Database Management Systems given real-world operational constraints.",
+            "Demonstrate the execution steps of 18CS53 - Database Management Systems on the provided sample input."
+          ]
+        },
+        {
+          "level": "L5",
+          "status": "over_represented",
+          "actual_pct": 30.0,
+          "target_pct": 10.0,
+          "difference_pct": 20.0,
+          "recommended_stems": [
+            "Consider shifting 20.0% of marks from L5 (Evaluate) into higher-order problem solving."
+          ]
+        },
+        {
+          "level": "L6",
+          "status": "over_represented",
+          "actual_pct": 30.0,
+          "target_pct": 5.0,
+          "difference_pct": 25.0,
+          "recommended_stems": [
+            "Consider shifting 25.0% of marks from L6 (Create) into higher-order problem solving."
+          ]
+        }
+      ]
+    },
+    "agent_trace": [
+      {
+        "step": "1. Structure-Based Parsing",
+        "status": "SUCCESS",
+        "retries": 0,
+        "engine_used": "structure_regex_parser",
+        "details": "Extracted institution: 'VISVESVARAYA TECHNOLOGICAL UNIVERSITY, BELAGAVI', 7 questions detected."
+      },
+      {
+        "step": "2 & 3. Bloom Classification & Answer Key Synthesis",
+        "status": "SUCCESS",
+        "retries": 0,
+        "engine_used": "gemini-3.5-flash-lite",
+        "details": "Generated keys and rubrics for 7 questions via Cloud AI."
+      },
+      {
+        "step": "4. Verifier, Boilerplate & Self-Repair Loop",
+        "status": "SUCCESS",
+        "retries": 0,
+        "engine_used": "deterministic_verifier",
+        "details": "Audited 7 questions. Boilerplate failure rate: 0.0%. All pass 100% exact rubric sum."
+      },
+      {
+        "step": "5. Smart OBE Exam Design Audit",
+        "status": "SUCCESS",
+        "retries": 0,
+        "engine_used": "obe_design_auditor",
+        "details": "Generated 5 rebalance stem recommendations against OBE target."
+      }
+    ],
+    "faculty_verified": "Faculty verified: No"
+  }
+}

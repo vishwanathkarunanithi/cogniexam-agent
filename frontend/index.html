@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CogniExam | Smart Question Paper Bloom's Auditor & Answer Key Synthesizer</title>
+    <title>CogniExam | Academic Question Paper Bloom's Auditor & Model Answer Key Synthesizer</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- React 18 & ReactDOM -->
@@ -14,17 +14,19 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; background-color: #0B1120; color: #F8FAFC; }
-        .glass-panel { background: rgba(23, 32, 54, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .dropzone-box { border: 2px dashed rgba(59, 130, 246, 0.4); background: rgba(30, 58, 138, 0.1); transition: all 0.2s ease; }
-        .dropzone-box:hover { border-color: rgba(59, 130, 246, 0.8); background: rgba(30, 58, 138, 0.2); }
-        .badge-l1 { background: rgba(59, 130, 246, 0.15); color: #60A5FA; border: 1px solid rgba(59, 130, 246, 0.3); }
-        .badge-l2 { background: rgba(16, 185, 129, 0.15); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.3); }
-        .badge-l3 { background: rgba(234, 179, 8, 0.15); color: #FACC15; border: 1px solid rgba(234, 179, 8, 0.3); }
-        .badge-l4 { background: rgba(249, 115, 22, 0.15); color: #FB923C; border: 1px solid rgba(249, 115, 22, 0.3); }
-        .badge-l5 { background: rgba(236, 72, 153, 0.15); color: #F472B6; border: 1px solid rgba(236, 72, 153, 0.3); }
-        .badge-l6 { background: rgba(168, 85, 247, 0.15); color: #C084FC; border: 1px solid rgba(168, 85, 247, 0.3); }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0A0E1A; color: #F1F5F9; }
+        .formal-panel { background: #111827; border: 1px solid #1F2937; }
+        .formal-card { background: #0F172A; border: 1px solid #1E293B; }
+        .formal-header { background: #0F172A; border: 1px solid #1E3A8A; border-top: 4px solid #2563EB; }
+        .dropzone-box { border: 2px dashed #3B82F6; background: rgba(37, 99, 235, 0.05); transition: all 0.2s ease; }
+        .dropzone-box:hover { border-color: #60A5FA; background: rgba(37, 99, 235, 0.1); }
+        .badge-l1 { background: rgba(59, 130, 246, 0.12); color: #93C5FD; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .badge-l2 { background: rgba(16, 185, 129, 0.12); color: #6EE7B7; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .badge-l3 { background: rgba(234, 179, 8, 0.12); color: #FDE047; border: 1px solid rgba(234, 179, 8, 0.3); }
+        .badge-l4 { background: rgba(249, 115, 22, 0.12); color: #FDBA74; border: 1px solid rgba(249, 115, 22, 0.3); }
+        .badge-l5 { background: rgba(236, 72, 153, 0.12); color: #F9A8D4; border: 1px solid rgba(236, 72, 153, 0.3); }
+        .badge-l6 { background: rgba(168, 85, 247, 0.12); color: #D8B4FE; border: 1px solid rgba(168, 85, 247, 0.3); }
     </style>
 </head>
 <body>
@@ -36,11 +38,16 @@
         function App() {
             const [activeTab, setActiveTab] = useState('audit');
             
+            // Sample papers list
+            const [sampleList, setSampleList] = useState([]);
+            const [selectedSampleKey, setSelectedSampleKey] = useState('anna_univ_cloud');
+
             // Question paper state
             const [paperText, setPaperText] = useState('');
-            const [courseTitle, setCourseTitle] = useState('CS8401 - Cloud Computing & Distributed Systems');
+            const [courseTitle, setCourseTitle] = useState('CS8791 - Cloud Computing and Distributed Systems');
             const [uploadedFileName, setUploadedFileName] = useState('');
             const [loading, setLoading] = useState(false);
+            const [downloadingPdf, setDownloadingPdf] = useState(false);
             const [result, setResult] = useState(null);
             const [savedCloudNotice, setSavedCloudNotice] = useState(false);
 
@@ -51,7 +58,7 @@
             // Student assessment state
             const [evalLoading, setEvalLoading] = useState(false);
             const [evalResult, setEvalResult] = useState(null);
-            const [stdAnswer, setStdAnswer] = useState("Chubby is Google's lock service based on Paxos for coarse-grained locks. ZooKeeper uses ZAB with in-memory trees for high-throughput fine-grained updates.");
+            const [stdAnswer, setStdAnswer] = useState("Chubby is Google's lock service based on Paxos algorithm for coarse-grained locks like master election. ZooKeeper uses ZAB with in-memory trees for high-throughput fine-grained updates.");
 
             // File input ref
             const fileInputRef = useRef(null);
@@ -61,9 +68,36 @@
             const chartInstance = useRef(null);
 
             useEffect(() => {
-                loadSample();
+                fetchSamplePapers();
                 fetchCloudVault();
             }, []);
+
+            const fetchSamplePapers = async () => {
+                try {
+                    const res = await fetch('/api/sample-papers');
+                    const data = await res.json();
+                    setSampleList(data);
+                    if (data.length > 0) {
+                        loadSpecificSample(data[0].key);
+                    }
+                } catch (e) {
+                    console.error("Error fetching samples:", e);
+                }
+            };
+
+            const loadSpecificSample = async (key) => {
+                try {
+                    const res = await fetch(`/api/sample-papers/${key}`);
+                    const data = await res.json();
+                    setSelectedSampleKey(key);
+                    setPaperText(data.paper_text);
+                    setCourseTitle(data.course_title);
+                    setUploadedFileName(`${data.metadata.institution} (${data.metadata.course_code})`);
+                    setResult(null);
+                } catch (e) {
+                    console.error("Error loading sample:", e);
+                }
+            };
 
             const fetchCloudVault = async () => {
                 setLoadingVault(true);
@@ -78,19 +112,6 @@
                 }
             };
 
-            const loadSample = async () => {
-                try {
-                    const res = await fetch('/api/sample-paper');
-                    const data = await res.json();
-                    setPaperText(data.paper_text);
-                    setCourseTitle(data.course_title);
-                    setUploadedFileName('sample_university_paper.txt');
-                } catch (e) {
-                    setPaperText("1. Define CAP Theorem. [5 Marks]\n2. Explain two-phase commit protocol. [5 Marks]");
-                }
-            };
-
-            // Handle File Upload (PDF, TXT, DOCX)
             const handleFileUpload = async (e) => {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -98,7 +119,6 @@
                 setUploadedFileName(file.name);
                 
                 if (file.name.endsWith('.pdf')) {
-                    // Send PDF to backend upload endpoint for extraction
                     const formData = new FormData();
                     formData.append('file', file);
                     formData.append('course_title', courseTitle);
@@ -119,7 +139,6 @@
                         setLoading(false);
                     }
                 } else {
-                    // Read text file directly in browser
                     const reader = new FileReader();
                     reader.onload = (event) => {
                         setPaperText(event.target.result);
@@ -162,6 +181,32 @@
                 }
             };
 
+            const downloadPdf = async () => {
+                if (!result) return;
+                setDownloadingPdf(true);
+                try {
+                    const res = await fetch('/api/download-answer-key-pdf', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(result)
+                    });
+                    if (!res.ok) throw new Error("Failed to generate academic PDF");
+                    
+                    const blob = await res.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `Official_Model_Answer_Key_${result.course_title.replace(/\s+/g, '_')}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                } catch (e) {
+                    alert("PDF Generation error: " + e.message);
+                } finally {
+                    setDownloadingPdf(false);
+                }
+            };
+
             useEffect(() => {
                 if (result && chartRef.current) {
                     if (chartInstance.current) {
@@ -180,16 +225,16 @@
                                 label: 'Marks Allocated',
                                 data: values,
                                 backgroundColor: [
-                                    'rgba(59, 130, 246, 0.7)',
-                                    'rgba(16, 185, 129, 0.7)',
-                                    'rgba(234, 179, 8, 0.7)',
-                                    'rgba(249, 115, 22, 0.7)',
-                                    'rgba(236, 72, 153, 0.7)',
-                                    'rgba(168, 85, 247, 0.7)'
+                                    'rgba(59, 130, 246, 0.85)',
+                                    'rgba(16, 185, 129, 0.85)',
+                                    'rgba(234, 179, 8, 0.85)',
+                                    'rgba(249, 115, 22, 0.85)',
+                                    'rgba(236, 72, 153, 0.85)',
+                                    'rgba(168, 85, 247, 0.85)'
                                 ],
-                                borderColor: 'rgba(255, 255, 255, 0.2)',
+                                borderColor: '#1E293B',
                                 borderWidth: 1,
-                                borderRadius: 6
+                                borderRadius: 4
                             }]
                         },
                         options: {
@@ -202,11 +247,11 @@
                                 y: {
                                     beginAtZero: true,
                                     grid: { color: 'rgba(255, 255, 255, 0.05)' },
-                                    ticks: { color: '#94A3B8' }
+                                    ticks: { color: '#94A3B8', font: { family: 'Inter', size: 10 } }
                                 },
                                 x: {
                                     grid: { display: false },
-                                    ticks: { color: '#94A3B8' }
+                                    ticks: { color: '#94A3B8', font: { family: 'Inter', size: 10 } }
                                 }
                             }
                         }
@@ -216,18 +261,29 @@
 
             const downloadMarkdownReport = () => {
                 if (!result) return;
-                let md = `# ${result.exam_title}\n\n`;
-                md += `**Total Marks:** ${result.total_marks} | **Bloom Index:** ${result.bloom_index} / 6.0 | **Verdict:** ${result.verdict}\n\n---\n\n`;
+                let md = `# ${result.institution_header || result.exam_title}\n\n`;
+                md += `Course Title: ${result.course_title}\n`;
+                md += `Total Marks: ${result.total_marks}\n`;
+                md += `Bloom Cognitive Depth Index: ${result.bloom_index} / 6.0\n`;
+                md += `OBE Accreditation Verdict: ${result.verdict}\n\n---\n\n`;
+                md += `> EVALUATOR GUIDANCE (STUDENT OWN-WORDS EVALUATION):\n> ${result.disclaimer}\n\n---\n\n`;
+                
                 result.questions.forEach(q => {
-                    md += `### Question ${q.q_no} (${q.marks} Marks)\n`;
-                    md += `**Question:** ${q.question}\n`;
-                    md += `**Bloom Level:** ${q.bloom_level} - ${q.bloom_name} | **Action Verb:** ${q.action_verb}\n`;
-                    md += `*Justification:* ${q.justification}\n\n`;
-                    md += `#### Canonical Model Answer:\n> ${q.model_answer}\n\n`;
-                    md += `#### Step Rubrics:\n`;
+                    md += `### Question ${q.q_no} [${q.marks} Marks] - ${q.section || 'PART A'}\n`;
+                    md += `Question: ${q.question}\n`;
+                    md += `Bloom Level: ${q.bloom_level} - ${q.bloom_name} | Action Verb: ${q.action_verb}\n`;
+                    md += `Pedagogical Justification: ${q.justification}\n\n`;
+                    md += `#### Canonical Model Answer:\n${q.model_answer}\n\n`;
+                    md += `#### Step-by-Step Marking Scheme:\n`;
                     q.rubric.forEach(r => {
                         md += `- ${r.criterion}: **${r.marks} Marks**\n`;
                     });
+                    if (q.own_words_criteria && q.own_words_criteria.length > 0) {
+                        md += `\n#### Key Semantic Criteria for Student's Own Words (Full/Partial Credit Guide):\n`;
+                        q.own_words_criteria.forEach(c => {
+                            md += `- ${c}\n`;
+                        });
+                    }
                     md += `\n---\n\n`;
                 });
 
@@ -235,101 +291,109 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `Answer_Key_${result.exam_title.replace(/\s+/g, '_')}.md`;
+                a.download = `Official_Model_Answer_Key_${result.course_title.replace(/\s+/g, '_')}.md`;
                 a.click();
             };
 
             return (
                 <div className="min-h-screen flex flex-col">
-                    {/* Top Header */}
-                    <header className="border-b border-slate-800 bg-slate-900/80 sticky top-0 z-50 backdrop-blur-md">
-                        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-                            <div className="flex items-center space-x-3">
-                                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20 text-lg">
-                                    🎓
+                    {/* Formal Top Navigation Header */}
+                    <header className="border-b border-slate-800 bg-slate-950 sticky top-0 z-50">
+                        <div className="max-w-7xl mx-auto px-6 py-3.5 flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                                <div className="w-9 h-9 rounded-md bg-blue-700 flex items-center justify-center font-bold text-white text-xs tracking-wider">
+                                    AI
                                 </div>
                                 <div>
-                                    <h1 className="text-base font-bold tracking-tight text-white flex items-center gap-2">
-                                        CogniExam
-                                        <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-medium">Evaluation Portal</span>
+                                    <h1 className="text-sm font-bold tracking-tight text-white flex items-center gap-2">
+                                        CogniExam Enterprise Platform
+                                        <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800 font-semibold">Production Ready</span>
                                     </h1>
-                                    <p className="text-xs text-slate-400">AI-Driven Smart Examination Design and Bloom's Taxonomy Assessment Agent</p>
+                                    <p className="text-[11px] text-slate-400">Dynamic Multi-Institutional Bloom's Taxonomy Auditor & Model Answer Key Synthesizer</p>
                                 </div>
                             </div>
-                            <div className="flex items-center space-x-3">
-                                <div className="flex items-center space-x-2 text-xs px-3 py-1.5 rounded-full bg-slate-800 border border-slate-700">
-                                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                                    <span className="text-slate-300 font-medium">Google Gemini Cloud AI Active</span>
-                                </div>
-                                <div className="flex items-center space-x-2 text-xs px-3 py-1.5 rounded-full bg-slate-800 border border-slate-700">
-                                    <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-                                    <span className="text-slate-300 font-medium">Cloud Vault: Active</span>
-                                </div>
+                            <div className="flex items-center space-x-3 text-xs">
+                                <span className="px-3 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300 font-medium flex items-center gap-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                    Google Gemini Cloud AI
+                                </span>
+                                <span className="px-3 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300 font-medium flex items-center gap-2">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                                    Cloud Vault Active
+                                </span>
                             </div>
                         </div>
                     </header>
 
-                    {/* Navigation Tabs (Only the 3 needed user-facing tabs) */}
-                    <div className="border-b border-slate-800 bg-slate-900/40">
-                        <div className="max-w-7xl mx-auto px-4 flex space-x-8">
+                    {/* Navigation Tabs */}
+                    <div className="border-b border-slate-800 bg-slate-900">
+                        <div className="max-w-7xl mx-auto px-6 flex space-x-8">
                             <button
                                 onClick={() => setActiveTab('audit')}
-                                className={`py-4 text-sm font-semibold border-b-2 transition-all flex items-center gap-2 ${activeTab === 'audit' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-400 hover:text-slate-200'}`}
+                                className={`py-3.5 text-xs font-semibold tracking-wide uppercase border-b-2 transition-all ${activeTab === 'audit' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-400 hover:text-slate-200'}`}
                             >
-                                <span className="text-base">📄</span> Upload Question Paper & Generate Answer Key
+                                Question Paper Evaluation & Model Answer Key
                             </button>
                             <button
                                 onClick={() => { setActiveTab('vault'); fetchCloudVault(); }}
-                                className={`py-4 text-sm font-semibold border-b-2 transition-all flex items-center gap-2 ${activeTab === 'vault' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-400 hover:text-slate-200'}`}
+                                className={`py-3.5 text-xs font-semibold tracking-wide uppercase border-b-2 transition-all flex items-center gap-2 ${activeTab === 'vault' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-400 hover:text-slate-200'}`}
                             >
-                                <span className="text-base">☁️</span> Cloud Saved Papers Vault
+                                Institutional Cloud Vault & Archive
                                 {cloudPapers.length > 0 && (
-                                    <span className="text-[11px] px-2 py-0.5 rounded-full bg-blue-600 text-white font-bold">{cloudPapers.length}</span>
+                                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-blue-600 text-white font-mono">{cloudPapers.length}</span>
                                 )}
                             </button>
                             <button
-                                onClick={() => setActiveTab('assess')}
-                                className={`py-4 text-sm font-semibold border-b-2 transition-all flex items-center gap-2 ${activeTab === 'assess' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-400 hover:text-slate-200'}`}
+                                onClick={() => setActiveTab('cloud_arch')}
+                                className={`py-3.5 text-xs font-semibold tracking-wide uppercase border-b-2 transition-all ${activeTab === 'cloud_arch' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-400 hover:text-slate-200'}`}
                             >
-                                <span className="text-base">✍️</span> Student Answer Grader
+                                Cloud-Native Architecture & Deployment
                             </button>
                         </div>
                     </div>
 
                     {/* Main Content Area */}
-                    <main className="flex-1 max-w-7xl mx-auto px-4 py-8 w-full">
-                        {/* TAB 1: QUESTION PAPER AUDIT & ANSWER KEY */}
+                    <main className="flex-1 max-w-7xl mx-auto px-6 py-6 w-full">
                         {activeTab === 'audit' && (
                             <div className="space-y-6">
                                 {savedCloudNotice && (
-                                    <div className="bg-emerald-950/40 border border-emerald-500/30 rounded-xl p-3 text-xs text-emerald-300 flex items-center justify-between">
+                                    <div className="bg-emerald-950/30 border border-emerald-500/40 rounded-lg p-3 text-xs text-emerald-300 flex items-center justify-between">
                                         <div className="flex items-center gap-2">
-                                            <span>☁️</span>
-                                            <span><strong>Cloud Integration Active:</strong> This question paper, Bloom cognitive scores, and canonical answer key have been archived to your Cloud Paper Vault!</span>
+                                            <span className="font-bold uppercase tracking-wider text-[11px] text-emerald-400">[Cloud Archival Confirmed]</span>
+                                            <span>This examination question paper and certified answer key have been archived to your Institutional Cloud Repository.</span>
                                         </div>
-                                        <button onClick={() => setActiveTab('vault')} className="underline font-semibold hover:text-white">View in Cloud Vault ➔</button>
+                                        <button onClick={() => setActiveTab('vault')} className="underline font-semibold hover:text-white">View in Repository &rarr;</button>
                                     </div>
                                 )}
 
                                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                                     {/* Left Input Column */}
-                                    <div className="lg:col-span-5 glass-panel rounded-xl p-6 space-y-4">
-                                        <div className="flex items-center justify-between">
-                                            <h2 className="text-base font-bold text-white flex items-center gap-2">
-                                                <span>📋</span> Question Paper Input
-                                            </h2>
-                                            <button
-                                                onClick={loadSample}
-                                                className="text-xs px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 transition"
+                                    <div className="lg:col-span-5 formal-panel rounded-lg p-5 space-y-4">
+                                        {/* 10 Diverse Real University Question Papers Selector */}
+                                        <div>
+                                            <div className="flex items-center justify-between mb-1.5">
+                                                <label className="text-xs font-bold text-slate-200 uppercase tracking-wider">
+                                                    Select Real University Examination Paper (10 Samples)
+                                                </label>
+                                                <span className="text-[10px] text-blue-400 font-semibold">Diverse Institutions</span>
+                                            </div>
+                                            <select
+                                                value={selectedSampleKey}
+                                                onChange={(e) => loadSpecificSample(e.target.value)}
+                                                className="w-full bg-slate-900 border border-slate-700 rounded-md px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500 font-medium"
                                             >
-                                                Load Sample Paper
-                                            </button>
+                                                {sampleList.map((item) => (
+                                                    <option key={item.key} value={item.key}>
+                                                        {item.id}. {item.institution} &bull; {item.course_code} - {item.course_title}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </div>
 
-                                        {/* PROMINENT FILE UPLOAD BUTTON / DROPZONE */}
+                                        {/* Drag & Drop File Upload Box */}
                                         <div
                                             onClick={() => fileInputRef.current && fileInputRef.current.click()}
-                                            className="dropzone-box rounded-xl p-5 text-center cursor-pointer space-y-2"
+                                            className="dropzone-box rounded-lg p-4 text-center cursor-pointer space-y-1"
                                         >
                                             <input
                                                 type="file"
@@ -338,64 +402,49 @@
                                                 accept=".pdf,.txt,.doc,.docx"
                                                 className="hidden"
                                             />
-                                            <div className="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 mx-auto flex items-center justify-center text-2xl">
-                                                📁
-                                            </div>
-                                            <div>
-                                                <p className="text-sm font-semibold text-white">
-                                                    Click to Upload Question Paper
-                                                </p>
-                                                <p className="text-xs text-slate-400 mt-0.5">
-                                                    Supports PDF, TXT, DOCX files
-                                                </p>
-                                            </div>
+                                            <p className="text-xs font-bold text-blue-400 uppercase tracking-wider">
+                                                Upload External Question Paper File
+                                            </p>
+                                            <p className="text-[11px] text-slate-400">
+                                                Supports Adobe PDF, Microsoft Word (.docx), or Plain Text
+                                            </p>
                                             {uploadedFileName && (
-                                                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-900/60 border border-blue-500/40 text-blue-300 text-xs font-medium">
-                                                    <span>📄 Loaded:</span>
-                                                    <span className="truncate max-w-[200px]">{uploadedFileName}</span>
+                                                <div className="inline-block px-2.5 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-800 text-[10.5px] font-mono mt-1">
+                                                    Loaded: {uploadedFileName}
                                                 </div>
                                             )}
                                         </div>
 
                                         <div>
-                                            <label className="text-xs font-medium text-slate-400 block mb-1">Course Title / Subject Code</label>
+                                            <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-1">Course Identification</label>
                                             <input
                                                 type="text"
                                                 value={courseTitle}
                                                 onChange={(e) => setCourseTitle(e.target.value)}
-                                                className="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
+                                                className="w-full bg-slate-900 border border-slate-700 rounded-md px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
                                             />
                                         </div>
 
                                         <div>
-                                            <label className="text-xs font-medium text-slate-400 block mb-1">Question Paper Content (Review / Edit Text)</label>
+                                            <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-1">Question Paper Transcript</label>
                                             <textarea
-                                                rows="9"
+                                                rows="10"
                                                 value={paperText}
                                                 onChange={(e) => setPaperText(e.target.value)}
-                                                placeholder="Uploaded text will appear here automatically, or paste questions directly..."
-                                                className="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-xs font-mono text-slate-300 focus:outline-none focus:border-blue-500 resize-none"
+                                                placeholder="Paste or upload question paper text..."
+                                                className="w-full bg-slate-900 border border-slate-700 rounded-md p-3 text-xs font-mono text-slate-300 focus:outline-none focus:border-blue-500 resize-none leading-relaxed"
                                             ></textarea>
                                         </div>
 
                                         <button
                                             onClick={handleAnalyze}
                                             disabled={loading}
-                                            className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-lg font-semibold text-sm transition shadow-lg shadow-blue-500/20 disabled:opacity-50 flex items-center justify-center gap-2"
+                                            className="w-full py-3 bg-blue-700 hover:bg-blue-600 text-white rounded-md font-bold text-xs uppercase tracking-wider transition disabled:opacity-50 flex items-center justify-center gap-2"
                                         >
                                             {loading ? (
-                                                <>
-                                                    <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
-                                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
-                                                    </svg>
-                                                    <span>AI Agent Auditing Bloom & Generating Key...</span>
-                                                </>
+                                                <span>Auditing Bloom Cognitive Levels & Synthesizing Answer Keys...</span>
                                             ) : (
-                                                <>
-                                                    <span>🚀</span>
-                                                    <span>Audit Paper, Score Bloom & Generate Answer Key</span>
-                                                </>
+                                                <span>Audit Bloom Score & Generate Model Answer Key</span>
                                             )}
                                         </button>
                                     </div>
@@ -403,109 +452,176 @@
                                     {/* Right Output Column */}
                                     <div className="lg:col-span-7 space-y-6">
                                         {!result && (
-                                            <div className="glass-panel rounded-xl p-12 text-center flex flex-col items-center justify-center h-full min-h-[460px]">
-                                                <div className="w-16 h-16 rounded-2xl bg-blue-500/10 flex items-center justify-center text-3xl mb-4 border border-blue-500/20">
-                                                    📄
-                                                </div>
-                                                <h3 className="text-lg font-bold text-white mb-2">Ready to Audit Your Question Paper</h3>
-                                                <p className="text-sm text-slate-400 max-w-md">
-                                                    Upload a Question Paper PDF on the left or click <strong>"Audit Paper, Score Bloom & Generate Answer Key"</strong> to see:
+                                            <div className="formal-panel rounded-lg p-12 text-center flex flex-col items-center justify-center h-full min-h-[480px]">
+                                                <h3 className="text-base font-bold text-white uppercase tracking-wider mb-2">Automated Examination Audit & Model Answer Synthesis</h3>
+                                                <p className="text-xs text-slate-400 max-w-md leading-relaxed">
+                                                    Select an examination paper on the left or upload any paper PDF, then click <strong>"Audit Bloom Score & Generate Model Answer Key"</strong>.
                                                 </p>
-                                                <div className="mt-4 text-xs text-slate-300 space-y-1.5 text-left bg-slate-900/60 p-4 rounded-lg border border-slate-800">
-                                                    <p>✓ Bloom Cognitive Depth Score (out of 6.0)</p>
-                                                    <p>✓ Cognitive Distribution (LOTS, MOTS, HOTS breakdown)</p>
-                                                    <p>✓ Action verb verification for each question</p>
-                                                    <p>✓ Canonical Model Answer Key</p>
-                                                    <p>✓ Step-by-Step Scoring Rubrics</p>
-                                                    <p>✓ Automatic Cloud Storage Archival</p>
+                                                <div className="mt-5 text-xs text-slate-300 space-y-1.5 text-left bg-slate-950 p-4 rounded-md border border-slate-800 w-full max-w-md">
+                                                    <p className="font-semibold text-blue-400 uppercase tracking-wider text-[11px]">System Capabilities:</p>
+                                                    <p>&bull; Dynamic Institution Extraction: Reads whatever university or board is on the question paper and adapts the official title.</p>
+                                                    <p>&bull; Objective Cognitive Depth Index: Evaluates Bloom's Revised Taxonomy levels (L1 to L6).</p>
+                                                    <p>&bull; Evaluator Ethics Guidance: Outlines explicit criteria for student own-words credit allocation.</p>
+                                                    <p>&bull; Step-by-Step Marking Rubrics: Complete step breakdowns with individual marks.</p>
+                                                    <p>&bull; Formal PDF Download: Export official publication-ready evaluation documentation.</p>
                                                 </div>
                                             </div>
                                         )}
 
                                         {result && (
                                             <div className="space-y-6">
-                                                {/* Metric Summary Cards */}
-                                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                                    <div className="glass-panel rounded-xl p-4">
-                                                        <p className="text-xs text-slate-400">Total Marks</p>
-                                                        <p className="text-2xl font-bold text-white mt-1">{result.total_marks}</p>
-                                                        <p className="text-[11px] text-blue-400 mt-1">{result.total_questions} Questions</p>
+                                                {/* Formal Institutional Header (Clean, Dynamic, No Stray Pipes) */}
+                                                <div className="formal-header rounded-lg p-6 text-center shadow-lg">
+                                                    <h2 className="text-sm font-extrabold text-blue-400 uppercase tracking-widest">{result.institution_name}</h2>
+                                                    <p className="text-xs text-slate-300 font-semibold mt-1">{result.department}</p>
+                                                    <div className="inline-block px-4 py-1 rounded bg-blue-950 border border-blue-600 text-white font-bold text-xs uppercase tracking-wider mt-3">
+                                                        OFFICIAL MODEL ANSWER KEY & BLOOM'S TAXONOMY EVALUATION SCHEME
                                                     </div>
-                                                    <div className="glass-panel rounded-xl p-4">
-                                                        <p className="text-xs text-slate-400">Bloom Index</p>
-                                                        <p className="text-2xl font-bold text-emerald-400 mt-1">{result.bloom_index} <span className="text-xs text-slate-400 font-normal">/ 6.0</span></p>
-                                                        <p className="text-[11px] text-slate-400 mt-1">Cognitive Depth</p>
-                                                    </div>
-                                                    <div className="glass-panel rounded-xl p-4">
-                                                        <p className="text-xs text-slate-400">HOTS Ratio</p>
-                                                        <p className="text-2xl font-bold text-purple-400 mt-1">{result.metrics.high_order_pct}%</p>
-                                                        <p className="text-[11px] text-slate-400 mt-1">L5-L6 Thinking</p>
-                                                    </div>
-                                                    <div className="glass-panel rounded-xl p-4">
-                                                        <p className="text-xs text-slate-400">OBE Status</p>
-                                                        <p className="text-sm font-bold text-amber-400 mt-2 truncate">Certified</p>
-                                                        <p className="text-[11px] text-slate-400 mt-1">NBA/ABET Audit</p>
+                                                    
+                                                    {/* Clean Metadata Table */}
+                                                    <div className="mt-4 pt-3 border-t border-slate-800 grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
+                                                        <div className="bg-slate-950/80 p-2 rounded border border-slate-800/60">
+                                                            <span className="text-slate-400 block text-[10px] uppercase font-semibold">Course</span>
+                                                            <span className="text-slate-200 font-medium font-mono text-[11px] truncate block">{result.course_title}</span>
+                                                        </div>
+                                                        <div className="bg-slate-950/80 p-2 rounded border border-slate-800/60">
+                                                            <span className="text-slate-400 block text-[10px] uppercase font-semibold">Total Marks</span>
+                                                            <span className="text-white font-bold text-sm">{result.total_marks} Marks</span>
+                                                        </div>
+                                                        <div className="bg-slate-950/80 p-2 rounded border border-slate-800/60">
+                                                            <span className="text-slate-400 block text-[10px] uppercase font-semibold">Bloom Cognitive Depth</span>
+                                                            <span className="text-emerald-400 font-bold text-sm">{result.bloom_index} <span className="text-[10px] font-normal text-slate-400">/ 6.0</span></span>
+                                                        </div>
                                                     </div>
                                                 </div>
 
-                                                {/* Cognitive Distribution Chart */}
-                                                <div className="glass-panel rounded-xl p-6">
-                                                    <div className="flex items-center justify-between mb-4">
-                                                        <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                                                            <span>📊</span> Cognitive Weightage across Bloom's Levels
-                                                        </h3>
-                                                        <button
-                                                            onClick={downloadMarkdownReport}
-                                                            className="text-xs px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium transition flex items-center gap-1.5"
-                                                        >
-                                                            <span>📥</span> Download Official Answer Key (.MD)
-                                                        </button>
+                                                {/* Formal Evaluator & Student Own Words Disclaimer */}
+                                                <div className="bg-amber-950/20 border-l-4 border-amber-600 rounded-r-md p-4 text-xs text-amber-200/90 space-y-1">
+                                                    <p className="font-bold text-amber-400 uppercase tracking-wider text-[11px]">
+                                                        OFFICIAL EVALUATION GUIDANCE & STUDENT OWN-WORDS ASSESSMENT CRITERIA:
+                                                    </p>
+                                                    <p className="leading-relaxed text-[11.5px]">
+                                                        Students are encouraged to express technical explanations, derivations, and solutions in their own words. Evaluators <strong>MUST award full or proportional marks</strong> whenever the core conceptual logic, required technical keywords, and essential principles are satisfied, even if phrasing differs from the canonical solution. Refer to the <em>"Key Semantic Criteria for Student Own Words"</em> outlined under each question below.
+                                                    </p>
+                                                </div>
+
+                                                {/* Metric Summary Cards */}
+                                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                                    <div className="formal-panel rounded-lg p-3.5">
+                                                        <p className="text-[11px] text-slate-400 uppercase font-semibold">Total Marks</p>
+                                                        <p className="text-xl font-bold text-white mt-1">{result.total_marks}</p>
+                                                        <p className="text-[10.5px] text-blue-400 mt-0.5">{result.total_questions} Questions</p>
                                                     </div>
-                                                    <div className="h-48 w-full">
+                                                    <div className="formal-panel rounded-lg p-3.5">
+                                                        <p className="text-[11px] text-slate-400 uppercase font-semibold">Bloom Index</p>
+                                                        <p className="text-xl font-bold text-emerald-400 mt-1">{result.bloom_index} <span className="text-xs text-slate-400 font-normal">/ 6.0</span></p>
+                                                        <p className="text-[10.5px] text-slate-400 mt-0.5">Cognitive Depth</p>
+                                                    </div>
+                                                    <div className="formal-panel rounded-lg p-3.5">
+                                                        <p className="text-[11px] text-slate-400 uppercase font-semibold">HOTS Ratio</p>
+                                                        <p className="text-xl font-bold text-purple-400 mt-1">{result.metrics.high_order_pct}%</p>
+                                                        <p className="text-[10.5px] text-slate-400 mt-0.5">L5-L6 Thinking</p>
+                                                    </div>
+                                                    <div className="formal-panel rounded-lg p-3.5">
+                                                        <p className="text-[11px] text-slate-400 uppercase font-semibold">OBE Status</p>
+                                                        <p className="text-xs font-bold text-amber-400 mt-2 truncate">Certified</p>
+                                                        <p className="text-[10.5px] text-slate-400 mt-0.5">NBA/ABET Audit</p>
+                                                    </div>
+                                                </div>
+
+                                                {/* Cognitive Distribution Chart & Download Bar */}
+                                                <div className="formal-panel rounded-lg p-5">
+                                                    <div className="flex items-center justify-between mb-4">
+                                                        <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider">
+                                                            Cognitive Distribution across Bloom's Levels
+                                                        </h3>
+                                                        <div className="flex items-center space-x-2">
+                                                            <button
+                                                                onClick={downloadPdf}
+                                                                disabled={downloadingPdf}
+                                                                className="px-3.5 py-1.5 rounded bg-blue-700 hover:bg-blue-600 text-white font-semibold text-xs tracking-wide uppercase transition disabled:opacity-50"
+                                                            >
+                                                                {downloadingPdf ? 'Generating PDF...' : 'Download Answer Key (PDF)'}
+                                                            </button>
+                                                            <button
+                                                                onClick={downloadMarkdownReport}
+                                                                className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs tracking-wide uppercase transition border border-slate-700"
+                                                            >
+                                                                Export Markdown (.MD)
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div className="h-44 w-full">
                                                         <canvas ref={chartRef}></canvas>
                                                     </div>
                                                 </div>
 
-                                                {/* Question & Answer Key List */}
+                                                {/* Formal Model Answers & Marking Schemes */}
                                                 <div className="space-y-4">
-                                                    <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                                                        <span>📝</span> Generated Answer Key & Marking Rubrics
+                                                    <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300">
+                                                        Canonical Model Answers and Evaluation Schemes
                                                     </h3>
 
                                                     {result.questions.map((q, idx) => (
-                                                        <div key={idx} className="glass-panel rounded-xl p-5 space-y-3">
+                                                        <div key={idx} className="formal-card rounded-lg p-5 space-y-3.5">
                                                             <div className="flex items-start justify-between">
                                                                 <div>
-                                                                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Question {q.q_no} • {q.marks} Marks</span>
-                                                                    <h4 className="text-sm font-semibold text-white mt-1">{q.question}</h4>
+                                                                    <div className="flex items-center gap-2">
+                                                                        <span className="text-[11px] font-bold text-blue-400 uppercase tracking-wider">{q.section || 'PART A'}</span>
+                                                                        <span className="text-slate-600">&bull;</span>
+                                                                        <span className="text-[11px] font-bold text-white uppercase tracking-wider">Question {q.q_no}</span>
+                                                                        <span className="text-slate-600">&bull;</span>
+                                                                        <span className="text-[11px] font-semibold text-slate-300">{q.marks} Marks</span>
+                                                                    </div>
+                                                                    <h4 className="text-xs font-semibold text-slate-100 mt-1.5 leading-relaxed">{q.question}</h4>
                                                                 </div>
-                                                                <span className={`text-xs px-2.5 py-1 rounded-md font-bold badge-${q.bloom_level.toLowerCase()}`}>
+                                                                <span className={`text-[10.5px] px-2.5 py-0.5 rounded font-bold badge-${q.bloom_level.toLowerCase()} shrink-0`}>
                                                                     {q.bloom_level} - {q.bloom_name}
                                                                 </span>
                                                             </div>
 
-                                                            <div className="text-xs text-slate-400 flex items-center gap-3">
-                                                                <span><strong>Verb:</strong> <code className="text-blue-400">{q.action_verb}</code></span>
-                                                                <span>•</span>
+                                                            <div className="text-[11px] text-slate-400 flex items-center gap-2 bg-slate-950 p-2 rounded border border-slate-800">
+                                                                <span><strong>Action Verb:</strong> <code className="text-blue-400 font-mono font-bold">{q.action_verb}</code></span>
+                                                                <span className="text-slate-600">&bull;</span>
                                                                 <span>{q.justification}</span>
                                                             </div>
 
-                                                            <div className="bg-slate-900/80 rounded-lg p-3 text-xs space-y-2 border border-slate-800">
-                                                                <p className="font-semibold text-emerald-400">💡 Canonical Model Answer:</p>
-                                                                <p className="text-slate-300 leading-relaxed">{q.model_answer}</p>
+                                                            {/* Canonical Model Answer */}
+                                                            <div className="bg-slate-950 rounded p-3.5 text-xs space-y-1.5 border border-slate-800">
+                                                                <p className="font-bold text-emerald-400 uppercase tracking-wider text-[10.5px]">
+                                                                    Canonical Model Answer:
+                                                                </p>
+                                                                <p className="text-slate-200 leading-relaxed whitespace-pre-line font-mono text-[11px]">{q.model_answer}</p>
                                                             </div>
 
+                                                            {/* Step-by-Step Marking Rubric */}
                                                             <div className="space-y-1">
-                                                                <p className="text-xs font-semibold text-slate-300">📋 Step-by-Step Scoring Rubric:</p>
+                                                                <p className="text-[10.5px] font-bold text-slate-300 uppercase tracking-wider">
+                                                                    Step-by-Step Marking Scheme:
+                                                                </p>
                                                                 <div className="grid grid-cols-1 gap-1">
                                                                     {q.rubric.map((r, rIdx) => (
-                                                                        <div key={rIdx} className="flex justify-between items-center text-xs py-1 px-2.5 rounded bg-slate-800/40 border border-slate-800">
-                                                                            <span className="text-slate-400">{r.criterion}</span>
-                                                                            <span className="font-mono font-semibold text-blue-400">{r.marks} pts</span>
+                                                                        <div key={rIdx} className="flex justify-between items-center text-[11px] py-1 px-2.5 rounded bg-slate-900 border border-slate-800">
+                                                                            <span className="text-slate-300">{r.criterion}</span>
+                                                                            <span className="font-mono font-bold text-blue-400">{r.marks} Marks</span>
                                                                         </div>
                                                                     ))}
                                                                 </div>
                                                             </div>
+
+                                                            {/* Key Semantic Criteria for Student's Own Words */}
+                                                            {q.own_words_criteria && q.own_words_criteria.length > 0 && (
+                                                                <div className="bg-blue-950/20 border border-blue-900/40 rounded p-3 space-y-1 text-xs">
+                                                                    <p className="font-bold text-blue-300 uppercase tracking-wider text-[10.5px]">
+                                                                        Key Semantic Criteria for Student's Own Words (Full/Partial Credit Guide):
+                                                                    </p>
+                                                                    <ul className="list-disc list-inside space-y-0.5 text-slate-300 text-[11px]">
+                                                                        {q.own_words_criteria.map((c, cIdx) => (
+                                                                            <li key={cIdx}>{c}</li>
+                                                                        ))}
+                                                                    </ul>
+                                                                </div>
+                                                            )}
                                                         </div>
                                                     ))}
                                                 </div>
@@ -519,46 +635,46 @@
                         {/* TAB 2: CLOUD SAVED PAPERS VAULT */}
                         {activeTab === 'vault' && (
                             <div className="space-y-6">
-                                <div className="glass-panel rounded-xl p-6 flex items-center justify-between">
+                                <div className="formal-panel rounded-lg p-5 flex items-center justify-between">
                                     <div>
-                                        <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                                            <span>☁️</span> Cloud Paper Vault & Archival Repository
+                                        <h2 className="text-sm font-bold text-white uppercase tracking-wider">
+                                            Institutional Examination Vault and Archival Repository
                                         </h2>
-                                        <p className="text-xs text-slate-400 mt-1">
-                                            Centralized Cloud Storage (<code className="text-blue-400">gs://cogniexam-paper-vault</code>) containing all certified question papers, Bloom cognitive scorecards, and canonical model answer keys.
+                                        <p className="text-xs text-slate-400 mt-0.5">
+                                            Centralized Cloud Storage (<code className="text-blue-400 font-mono">gs://cogniexam-paper-vault</code>) containing all certified question papers, Bloom cognitive scorecards, and canonical model answer keys.
                                         </p>
                                     </div>
                                     <button
                                         onClick={fetchCloudVault}
-                                        className="text-xs px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg font-medium transition"
+                                        className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded font-semibold transition border border-slate-700"
                                     >
-                                        🔄 Refresh Cloud Repository
+                                        Synchronize Repository
                                     </button>
                                 </div>
 
                                 {cloudPapers.length === 0 ? (
-                                    <div className="glass-panel rounded-xl p-12 text-center text-slate-400">
-                                        No question papers saved to the cloud yet. Go to Tab 1 and click <strong>"Audit Paper, Score Bloom & Save to Cloud"</strong>!
+                                    <div className="formal-panel rounded-lg p-12 text-center text-xs text-slate-400">
+                                        No question papers archived in repository. Return to the Evaluation tab and analyze an examination paper to archive it automatically.
                                     </div>
                                 ) : (
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                         {cloudPapers.map((cp, idx) => (
-                                            <div key={idx} className="glass-panel rounded-xl p-5 space-y-3 border border-slate-800 hover:border-blue-500/50 transition">
+                                            <div key={idx} className="formal-card rounded-lg p-4 space-y-2.5 border border-slate-800 hover:border-blue-600 transition">
                                                 <div className="flex justify-between items-start">
-                                                    <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">{cp.paper_id}</span>
+                                                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-950 text-blue-400 border border-blue-900">{cp.paper_id}</span>
                                                     <span className="text-xs font-bold text-emerald-400">Bloom: {cp.bloom_index} / 6.0</span>
                                                 </div>
-                                                <h3 className="text-sm font-bold text-white line-clamp-1">{cp.course_title}</h3>
-                                                <div className="text-xs text-slate-400 space-y-1">
+                                                <h3 className="text-xs font-bold text-white line-clamp-1">{cp.course_title}</h3>
+                                                <div className="text-[11px] text-slate-400 space-y-0.5">
                                                     <p>Total Marks: <strong className="text-slate-200">{cp.total_marks}</strong> ({cp.total_questions} Questions)</p>
-                                                    <p>Cloud URI: <code className="text-xs text-slate-500 truncate block">{cp.cloud_uri}</code></p>
-                                                    <p className="text-[11px] text-slate-500">Saved: {new Date(cp.timestamp).toLocaleString()}</p>
+                                                    <p>Cloud URI: <code className="text-[10px] text-slate-500 truncate block">{cp.cloud_uri}</code></p>
+                                                    <p className="text-[10px] text-slate-500">Archived: {new Date(cp.timestamp).toLocaleString()}</p>
                                                 </div>
                                                 <button
                                                     onClick={() => loadPaperFromVault(cp.paper_id)}
-                                                    className="w-full py-2 bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white rounded-lg text-xs font-semibold transition border border-blue-500/30"
+                                                    className="w-full py-1.5 bg-blue-950 hover:bg-blue-900 text-blue-300 rounded text-xs font-semibold transition border border-blue-800"
                                                 >
-                                                    Open Paper & Answer Key ➔
+                                                    Open Examination Paper and Answer Key &rarr;
                                                 </button>
                                             </div>
                                         ))}
@@ -567,34 +683,76 @@
                             </div>
                         )}
 
-                        {/* TAB 3: STUDENT GRADING */}
-                        {activeTab === 'assess' && (
-                            <div className="glass-panel rounded-xl p-8 max-w-4xl mx-auto space-y-6">
-                                <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                                    <span>✍️</span> Semantic Student Evaluation & Diagnostic Feedback
-                                </h2>
+                        {/* TAB 3: CLOUD NATIVE ARCHITECTURE & DEPLOYMENT */}
+                        {activeTab === 'cloud_arch' && (
+                            <div className="formal-panel rounded-lg p-6 max-w-4xl mx-auto space-y-6">
                                 <div>
-                                    <label className="text-xs font-medium text-slate-400">Student Answer Submission</label>
-                                    <textarea
-                                        rows="4"
-                                        value={stdAnswer}
-                                        onChange={(e) => setStdAnswer(e.target.value)}
-                                        className="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-xs text-slate-200 mt-1"
-                                    ></textarea>
+                                    <h2 className="text-sm font-bold text-white uppercase tracking-wider">
+                                        Cloud-Native Architecture & Deployment Specifications
+                                    </h2>
+                                    <p className="text-xs text-slate-400 mt-1">
+                                        Comprehensive architectural blueprints and continuous deployment pipelines for 100% serverless cloud hosting.
+                                    </p>
                                 </div>
-                                <button
-                                    onClick={() => alert("Grading complete with step rubrics!")}
-                                    className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold transition"
-                                >
-                                    Grade Student with Step Rubrics
-                                </button>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="formal-card p-4 rounded-lg space-y-2">
+                                        <h3 className="text-xs font-bold text-blue-400 uppercase tracking-wide">1. Compute & Application Runtime</h3>
+                                        <p className="text-xs text-slate-300 leading-relaxed">
+                                            Containerized via <strong>Docker</strong> and deployed to <strong>Google Cloud Run</strong>. Features serverless auto-scaling (0 to N instances) with stateless execution, sub-second cold starts, and zero idle costs.
+                                        </p>
+                                        <div className="text-[11px] font-mono text-slate-400 bg-slate-950 p-2 rounded">
+                                            Container: python:3.11-slim &bull; Port: 8080/8000
+                                        </div>
+                                    </div>
+
+                                    <div className="formal-card p-4 rounded-lg space-y-2">
+                                        <h3 className="text-xs font-bold text-emerald-400 uppercase tracking-wide">2. Cognitive AI Backbone</h3>
+                                        <p className="text-xs text-slate-300 leading-relaxed">
+                                            Integrated with <strong>Google Vertex AI / Gemini 3.5</strong> via high-throughput REST APIs. Executes multi-agent item authoring, Bloom's cognitive friction audits, and step-wise rubric synthesis.
+                                        </p>
+                                        <div className="text-[11px] font-mono text-slate-400 bg-slate-950 p-2 rounded">
+                                            Model: gemini-3.5-flash &bull; Status: LIVE
+                                        </div>
+                                    </div>
+
+                                    <div className="formal-card p-4 rounded-lg space-y-2">
+                                        <h3 className="text-xs font-bold text-amber-400 uppercase tracking-wide">3. Persistent Paper Repository</h3>
+                                        <p className="text-xs text-slate-300 leading-relaxed">
+                                            Archival layer utilizing <strong>Google Cloud Storage (GCS)</strong>. Every evaluated question paper, Bloom scorecard, and model answer key is automatically versioned and stored with immutable cloud URIs.
+                                        </p>
+                                        <div className="text-[11px] font-mono text-slate-400 bg-slate-950 p-2 rounded">
+                                            Bucket: gs://cogniexam-paper-vault
+                                        </div>
+                                    </div>
+
+                                    <div className="formal-card p-4 rounded-lg space-y-2">
+                                        <h3 className="text-xs font-bold text-purple-400 uppercase tracking-wide">4. Automated CI/CD Pipeline</h3>
+                                        <p className="text-xs text-slate-300 leading-relaxed">
+                                            Equipped with <strong>Google Cloud Build (`cloudbuild.yaml`)</strong> and 1-click deployment scripts (<code>deploy_gcp.ps1</code> / <code>deploy_gcp.sh</code>) for automated image compilation and zero-downtime rollouts.
+                                        </p>
+                                        <div className="text-[11px] font-mono text-slate-400 bg-slate-950 p-2 rounded">
+                                            Artifact Registry: gcr.io/$PROJECT_ID
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="formal-card p-5 rounded-lg space-y-3">
+                                    <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wide">1-Click Terminal Deployment Command</h3>
+                                    <p className="text-xs text-slate-400">
+                                        To deploy this exact project to Google Cloud Run from your PowerShell terminal:
+                                    </p>
+                                    <div className="bg-slate-950 p-3 rounded font-mono text-xs text-blue-300 border border-slate-800">
+                                        gcloud run deploy cogniexam-agent --source . --region us-central1 --allow-unauthenticated
+                                    </div>
+                                </div>
                             </div>
                         )}
                     </main>
 
                     {/* Footer */}
-                    <footer className="border-t border-slate-800 py-4 text-center text-xs text-slate-500">
-                        CogniExam Multi-Agent System • Powered by Google Cloud AI & Bloom's Revised Taxonomy
+                    <footer className="border-t border-slate-800 py-3 text-center text-[11px] text-slate-500 bg-slate-950">
+                        CogniExam Autonomous Multi-Agent Academic System &bull; Outcome-Based Education (OBE) Certified &bull; Powered by Google Cloud AI
                     </footer>
                 </div>
             );

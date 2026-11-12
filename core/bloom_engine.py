@@ -2,7 +2,7 @@
 Bloom's Revised Taxonomy Definitions, Action Verbs, and Cognitive Analysis Engine.
 """
 
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 
 BLOOM_TAXONOMY_LEVELS = {
     "L1": {
@@ -116,5 +116,103 @@ def compute_exam_cognitive_distribution(questions: List[Dict[str, Any]]) -> Dict
         "low_order_pct": sum(distribution[f"L{i}"]["percentage"] for i in [1, 2]),
         "medium_order_pct": sum(distribution[f"L{i}"]["percentage"] for i in [3, 4]),
         "high_order_pct": sum(distribution[f"L{i}"]["percentage"] for i in [5, 6]),
+    }
+
+
+DEFAULT_OBE_TARGET: Dict[str, float] = {
+    "L1": 15.0,
+    "L2": 25.0,
+    "L3": 30.0,
+    "L4": 15.0,
+    "L5": 10.0,
+    "L6": 5.0
+}
+
+REBALANCE_STEM_TEMPLATES: Dict[str, List[str]] = {
+    "L1": [
+        "State and define the foundational properties of {subject}.",
+        "List the primary structural components and operational constraints of {subject}."
+    ],
+    "L2": [
+        "Explain the working mechanism of {subject} with an illustrative block diagram.",
+        "Differentiate between {subject} and conventional approaches regarding latency and consistency."
+    ],
+    "L3": [
+        "Compute the optimal performance parameters for {subject} given real-world operational constraints.",
+        "Demonstrate the execution steps of {subject} on the provided sample input."
+    ],
+    "L4": [
+        "Analyze the system bottlenecks when {subject} experiences an unanticipated load spike.",
+        "Deconstruct the trade-offs between computational throughput and fault tolerance in {subject}."
+    ],
+    "L5": [
+        "Critique whether {subject} satisfies the strict SLA requirements compared to alternatives; justify your stance.",
+        "Assess the security posture and operational viability of {subject} under adversarial stress."
+    ],
+    "L6": [
+        "Design an end-to-end resilient architecture incorporating {subject} to prevent single-point failures.",
+        "Formulate a novel pipeline that optimizes resource allocation using {subject}."
+    ]
+}
+
+
+def audit_smart_exam_design(
+    actual_distribution: Dict[str, Any],
+    target_distribution: Optional[Dict[str, float]] = None,
+    subject: str = "the course domain"
+) -> Dict[str, Any]:
+    """
+    R4: Smart Exam Design Auditor.
+    Compares the actual question paper Bloom distribution against an editable OBE target,
+    flags under- and over-represented cognitive tiers, and synthesizes 2-3 actionable rebalance stems.
+    """
+    targets = target_distribution or DEFAULT_OBE_TARGET
+    suggestions = []
+    under_count = 0
+    over_count = 0
+
+    actual_pcts = {}
+    for lvl in ["L1", "L2", "L3", "L4", "L5", "L6"]:
+        data = actual_distribution.get(lvl, {})
+        actual_pct = float(data.get("percentage", 0.0) if isinstance(data, dict) else data)
+        target_pct = float(targets.get(lvl, 0.0))
+        actual_pcts[lvl] = actual_pct
+        diff = round(actual_pct - target_pct, 2)
+
+        stems = [s.format(subject=subject) for s in REBALANCE_STEM_TEMPLATES.get(lvl, [])]
+
+        if diff < -5.0:
+            under_count += 1
+            suggestions.append({
+                "level": lvl,
+                "status": "under_represented",
+                "actual_pct": actual_pct,
+                "target_pct": target_pct,
+                "difference_pct": diff,
+                "recommended_stems": stems
+            })
+        elif diff > 8.0:
+            over_count += 1
+            suggestions.append({
+                "level": lvl,
+                "status": "over_represented",
+                "actual_pct": actual_pct,
+                "target_pct": target_pct,
+                "difference_pct": diff,
+                "recommended_stems": [
+                    f"Consider shifting {abs(diff):.1f}% of marks from {lvl} ({BLOOM_TAXONOMY_LEVELS[lvl]['name']}) into higher-order problem solving."
+                ]
+            })
+
+    if under_count == 0 and over_count == 0:
+        compliance = "OBE Compliant - Cognitive distribution matches target curriculum equilibrium."
+    else:
+        compliance = f"Rebalance Recommended - {under_count} under-represented and {over_count} over-represented cognitive level(s)."
+
+    return {
+        "target_distribution": targets,
+        "actual_distribution": actual_pcts,
+        "compliance_status": compliance,
+        "rebalance_suggestions": suggestions
     }
 

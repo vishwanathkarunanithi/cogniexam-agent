@@ -1,0 +1,279 @@
+{
+  "paper_id": "QP-20261112-6CC5DC",
+  "course_title": "EC8691 - Microprocessors and Microcontrollers",
+  "timestamp": "2026-11-12T23:23:13.943656",
+  "cloud_uri": "gs://cogniexam-paper-vault/QP-20261112-6CC5DC.json",
+  "total_questions": 7,
+  "total_marks": 16168,
+  "bloom_index": 1.5,
+  "verdict": "Predominantly Lower-Order Thinking (L1/L2) - Recommend adding higher-order analytical problems.",
+  "paper_text": "VELAMMAL INSTITUTE OF TECHNOLOGY\nDEPARTMENT OF ELECTRONICS AND COMMUNICATION ENGINEERING\nEND SEMESTER DEGREE EXAMINATIONS\nEC8691 - MICROPROCESSORS AND MICROCONTROLLERS\nTime: 3 Hours                                                     Max Marks: 50\n\nPART A - (5 x 4 = 20 Marks)\n1. Describe the flag register architecture of the 8086 microprocessor. [4 Marks]\n2. Differentiate between Memory-Mapped I/O and Peripheral I/O schemes. [4 Marks]\n3. Explain the internal RAM memory organization of the 8051 microcontroller. [4 Marks]\n4. Describe the operating modes of the 8255 Programmable Peripheral Interface (PPI). [4 Marks]\n5. Explain interrupt vector tables and the priority order of hardware interrupts in 8086. [4 Marks]\n\nPART B - (2 x 15 = 30 Marks)\n6. (a) Interface a 4x4 matrix keyboard and a 16x2 LCD display to the 8051 microcontroller. Write an assembly/C program to read key presses and display the corresponding character. [15 Marks]\n7. (a) Design an 8086-based stepper motor speed control system using the 8254 Programmable Interval Timer and 8259 Interrupt Controller. [15 Marks]",
+  "analysis_result": {
+    "institution_header": "VELAMMAL INSTITUTE OF TECHNOLOGY - OFFICIAL MODEL ANSWER KEY & BLOOM'S EVALUATION SCHEME",
+    "institution_name": "VELAMMAL INSTITUTE OF TECHNOLOGY",
+    "department": "DEPARTMENT OF ELECTRONICS AND COMMUNICATION ENGINEERING",
+    "course_title": "EC8691 - Microprocessors and Microcontrollers",
+    "exam_title": "VELAMMAL INSTITUTE OF TECHNOLOGY - OFFICIAL MODEL ANSWER KEY & BLOOM'S EVALUATION SCHEME",
+    "disclaimer": "IMPORTANT FACULTY & EVALUATOR GUIDANCE (STUDENT OWN-WORDS EVALUATION):\nStudents are encouraged to express technical explanations, derivations, and arguments in their own words. Evaluators MUST award full or proportional marks whenever the fundamental conceptual logic, necessary technical principles, and core propositions are present, even if the student's phrasing differs from the canonical model answer. Please refer to the 'Key Semantic Criteria for Student Own Words' section provided under each question.",
+    "total_questions": 7,
+    "total_marks": 16168,
+    "bloom_index": 1.5,
+    "verdict": "Predominantly Lower-Order Thinking (L1/L2) - Recommend adding higher-order analytical problems.",
+    "metrics": {
+      "total_marks": 16168,
+      "distribution": {
+        "L1": {
+          "marks": 8090,
+          "count": 2,
+          "percentage": 50.04,
+          "name": "Remember"
+        },
+        "L2": {
+          "marks": 8059,
+          "count": 3,
+          "percentage": 49.85,
+          "name": "Understand"
+        },
+        "L3": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Apply"
+        },
+        "L4": {
+          "marks": 4,
+          "count": 1,
+          "percentage": 0.02,
+          "name": "Analyze"
+        },
+        "L5": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Evaluate"
+        },
+        "L6": {
+          "marks": 15,
+          "count": 1,
+          "percentage": 0.09,
+          "name": "Create"
+        }
+      },
+      "low_order_pct": 99.89,
+      "medium_order_pct": 0.02,
+      "high_order_pct": 0.09
+    },
+    "questions": [
+      {
+        "q_no": "1",
+        "section": "PART A",
+        "question": "Describe the flag register architecture of the 8086 microprocessor. [4 Marks]",
+        "marks": 8086,
+        "bloom_level": "L1",
+        "bloom_name": "Remember",
+        "action_verb": "L1",
+        "justification": "Cognitive demand calibrated at L1 (Remember) requiring structured technical derivation and analytical reasoning.",
+        "model_answer": "Comprehensive Academic Solution:\n1. Conceptual Definition & Core Principle: The problem addresses the fundamental mechanics of Describe the flag register architecture of the 8086 microprocessor. [4 Marks]. In distributed and enterprise architectures, this enforces deterministic state transitions and prevents split-brain anomalies.\n2. Mathematical / Architectural Derivation: Applying standard protocols ensures linearizable execution paths. Key equations, algorithms, and topological structures must maintain bounded latency and high throughput.\n3. Operational Trade-offs & Conclusion: The trade-off directly impacts performance, consistency, and resilience against failures.",
+        "rubric": [
+          {
+            "criterion": "Fundamental concept definition & core terminology",
+            "marks": 2830.1
+          },
+          {
+            "criterion": "Technical derivation / diagram / calculation / implementation logic",
+            "marks": 3638.7
+          },
+          {
+            "criterion": "Analytical interpretation, accuracy & concluding justification",
+            "marks": 1617.2
+          }
+        ],
+        "own_words_criteria": [
+          "Presence of core domain principles and accurate terminology",
+          "Valid step-wise logical reasoning or derivation even if colloquial words are used",
+          "Correct final conclusion or calculation outcome"
+        ]
+      },
+      {
+        "q_no": "2",
+        "section": "PART A",
+        "question": "Differentiate between Memory-Mapped I/O and Peripheral I/O schemes. [4 Marks]",
+        "marks": 4,
+        "bloom_level": "L4",
+        "bloom_name": "Analyze",
+        "action_verb": "L4",
+        "justification": "Cognitive demand calibrated at L4 (Analyze) requiring structured technical derivation and analytical reasoning.",
+        "model_answer": "Comprehensive Academic Solution:\n1. Conceptual Definition & Core Principle: The problem addresses the fundamental mechanics of Differentiate between Memory-Mapped I/O and Peripheral I/O schemes. [4 Marks]. In distributed and enterprise architectures, this enforces deterministic state transitions and prevents split-brain anomalies.\n2. Mathematical / Architectural Derivation: Applying standard protocols ensures linearizable execution paths. Key equations, algorithms, and topological structures must maintain bounded latency and high throughput.\n3. Operational Trade-offs & Conclusion: The trade-off directly impacts performance, consistency, and resilience against failures.",
+        "rubric": [
+          {
+            "criterion": "Fundamental concept definition & core terminology",
+            "marks": 1.4
+          },
+          {
+            "criterion": "Technical derivation / diagram / calculation / implementation logic",
+            "marks": 1.8
+          },
+          {
+            "criterion": "Analytical interpretation, accuracy & concluding justification",
+            "marks": 0.8
+          }
+        ],
+        "own_words_criteria": [
+          "Presence of core domain principles and accurate terminology",
+          "Valid step-wise logical reasoning or derivation even if colloquial words are used",
+          "Correct final conclusion or calculation outcome"
+        ]
+      },
+      {
+        "q_no": "3",
+        "section": "PART A",
+        "question": "Explain the internal RAM memory organization of the 8051 microcontroller. [4 Marks]",
+        "marks": 8051,
+        "bloom_level": "L2",
+        "bloom_name": "Understand",
+        "action_verb": "L2",
+        "justification": "Cognitive demand calibrated at L2 (Understand) requiring structured technical derivation and analytical reasoning.",
+        "model_answer": "Comprehensive Academic Solution:\n1. Conceptual Definition & Core Principle: The problem addresses the fundamental mechanics of Explain the internal RAM memory organization of the 8051 microcontroller. [4 Mar. In distributed and enterprise architectures, this enforces deterministic state transitions and prevents split-brain anomalies.\n2. Mathematical / Architectural Derivation: Applying standard protocols ensures linearizable execution paths. Key equations, algorithms, and topological structures must maintain bounded latency and high throughput.\n3. Operational Trade-offs & Conclusion: The trade-off directly impacts performance, consistency, and resilience against failures.",
+        "rubric": [
+          {
+            "criterion": "Fundamental concept definition & core terminology",
+            "marks": 2817.8
+          },
+          {
+            "criterion": "Technical derivation / diagram / calculation / implementation logic",
+            "marks": 3623.0
+          },
+          {
+            "criterion": "Analytical interpretation, accuracy & concluding justification",
+            "marks": 1610.2
+          }
+        ],
+        "own_words_criteria": [
+          "Presence of core domain principles and accurate terminology",
+          "Valid step-wise logical reasoning or derivation even if colloquial words are used",
+          "Correct final conclusion or calculation outcome"
+        ]
+      },
+      {
+        "q_no": "4",
+        "section": "PART A",
+        "question": "Describe the operating modes of the 8255 Programmable Peripheral Interface (PPI). [4 Marks]",
+        "marks": 4,
+        "bloom_level": "L1",
+        "bloom_name": "Remember",
+        "action_verb": "L1",
+        "justification": "Cognitive demand calibrated at L1 (Remember) requiring structured technical derivation and analytical reasoning.",
+        "model_answer": "Comprehensive Academic Solution:\n1. Conceptual Definition & Core Principle: The problem addresses the fundamental mechanics of Describe the operating modes of the 8255 Programmable Peripheral Interface (PPI). In distributed and enterprise architectures, this enforces deterministic state transitions and prevents split-brain anomalies.\n2. Mathematical / Architectural Derivation: Applying standard protocols ensures linearizable execution paths. Key equations, algorithms, and topological structures must maintain bounded latency and high throughput.\n3. Operational Trade-offs & Conclusion: The trade-off directly impacts performance, consistency, and resilience against failures.",
+        "rubric": [
+          {
+            "criterion": "Fundamental concept definition & core terminology",
+            "marks": 1.4
+          },
+          {
+            "criterion": "Technical derivation / diagram / calculation / implementation logic",
+            "marks": 1.8
+          },
+          {
+            "criterion": "Analytical interpretation, accuracy & concluding justification",
+            "marks": 0.8
+          }
+        ],
+        "own_words_criteria": [
+          "Presence of core domain principles and accurate terminology",
+          "Valid step-wise logical reasoning or derivation even if colloquial words are used",
+          "Correct final conclusion or calculation outcome"
+        ]
+      },
+      {
+        "q_no": "5",
+        "section": "PART A",
+        "question": "Explain interrupt vector tables and the priority order of hardware interrupts in 8086. [4 Marks]",
+        "marks": 4,
+        "bloom_level": "L2",
+        "bloom_name": "Understand",
+        "action_verb": "L2",
+        "justification": "Cognitive demand calibrated at L2 (Understand) requiring structured technical derivation and analytical reasoning.",
+        "model_answer": "Comprehensive Academic Solution:\n1. Conceptual Definition & Core Principle: The problem addresses the fundamental mechanics of Explain interrupt vector tables and the priority order of hardware interrupts in. In distributed and enterprise architectures, this enforces deterministic state transitions and prevents split-brain anomalies.\n2. Mathematical / Architectural Derivation: Applying standard protocols ensures linearizable execution paths. Key equations, algorithms, and topological structures must maintain bounded latency and high throughput.\n3. Operational Trade-offs & Conclusion: The trade-off directly impacts performance, consistency, and resilience against failures.",
+        "rubric": [
+          {
+            "criterion": "Fundamental concept definition & core terminology",
+            "marks": 1.4
+          },
+          {
+            "criterion": "Technical derivation / diagram / calculation / implementation logic",
+            "marks": 1.8
+          },
+          {
+            "criterion": "Analytical interpretation, accuracy & concluding justification",
+            "marks": 0.8
+          }
+        ],
+        "own_words_criteria": [
+          "Presence of core domain principles and accurate terminology",
+          "Valid step-wise logical reasoning or derivation even if colloquial words are used",
+          "Correct final conclusion or calculation outcome"
+        ]
+      },
+      {
+        "q_no": "6",
+        "section": "PART B",
+        "question": "(a) Interface a 4x4 matrix keyboard and a 16x2 LCD display to the 8051 microcontroller. Write an assembly/C program to read key presses and display the corresponding character. [15 Marks]",
+        "marks": 4,
+        "bloom_level": "L2",
+        "bloom_name": "Understand",
+        "action_verb": "discuss",
+        "justification": "Cognitive demand calibrated at L2 (Understand) requiring structured technical derivation and analytical reasoning.",
+        "model_answer": "Comprehensive Academic Solution:\n1. Conceptual Definition & Core Principle: The problem addresses the fundamental mechanics of (a) Interface a 4x4 matrix keyboard and a 16x2 LCD display to the 8051 microcont. In distributed and enterprise architectures, this enforces deterministic state transitions and prevents split-brain anomalies.\n2. Mathematical / Architectural Derivation: Applying standard protocols ensures linearizable execution paths. Key equations, algorithms, and topological structures must maintain bounded latency and high throughput.\n3. Operational Trade-offs & Conclusion: The trade-off directly impacts performance, consistency, and resilience against failures.",
+        "rubric": [
+          {
+            "criterion": "Fundamental concept definition & core terminology",
+            "marks": 1.4
+          },
+          {
+            "criterion": "Technical derivation / diagram / calculation / implementation logic",
+            "marks": 1.8
+          },
+          {
+            "criterion": "Analytical interpretation, accuracy & concluding justification",
+            "marks": 0.8
+          }
+        ],
+        "own_words_criteria": [
+          "Presence of core domain principles and accurate terminology",
+          "Valid step-wise logical reasoning or derivation even if colloquial words are used",
+          "Correct final conclusion or calculation outcome"
+        ]
+      },
+      {
+        "q_no": "7",
+        "section": "PART B",
+        "question": "(a) Design an 8086-based stepper motor speed control system using the 8254 Programmable Interval Timer and 8259 Interrupt Controller. [15 Marks]",
+        "marks": 15,
+        "bloom_level": "L6",
+        "bloom_name": "Create",
+        "action_verb": "L6",
+        "justification": "Cognitive demand calibrated at L6 (Create) requiring structured technical derivation and analytical reasoning.",
+        "model_answer": "Comprehensive Academic Solution:\n1. Conceptual Definition & Core Principle: The problem addresses the fundamental mechanics of (a) Design an 8086-based stepper motor speed control system using the 8254 Progr. In distributed and enterprise architectures, this enforces deterministic state transitions and prevents split-brain anomalies.\n2. Mathematical / Architectural Derivation: Applying standard protocols ensures linearizable execution paths. Key equations, algorithms, and topological structures must maintain bounded latency and high throughput.\n3. Operational Trade-offs & Conclusion: The trade-off directly impacts performance, consistency, and resilience against failures.",
+        "rubric": [
+          {
+            "criterion": "Fundamental concept definition & core terminology",
+            "marks": 5.2
+          },
+          {
+            "criterion": "Technical derivation / diagram / calculation / implementation logic",
+            "marks": 6.8
+          },
+          {
+            "criterion": "Analytical interpretation, accuracy & concluding justification",
+            "marks": 3.0
+          }
+        ],
+        "own_words_criteria": [
+          "Presence of core domain principles and accurate terminology",
+          "Valid step-wise logical reasoning or derivation even if colloquial words are used",
+          "Correct final conclusion or calculation outcome"
+        ]
+      }
+    ]
+  }
+}

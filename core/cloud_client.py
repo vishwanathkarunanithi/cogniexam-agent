@@ -6,6 +6,8 @@ Loaded with live Google Cloud API configuration.
 import os
 import json
 import re
+import time
+import random
 from typing import Dict, Any, Optional
 
 # Load .env manually if exists
@@ -40,7 +42,7 @@ class CloudAgentClient:
         """Initializes the Gemini GenAI client."""
         if HAS_GENAI and self.api_key:
             try:
-                self.client = genai.Client(api_key=self.api_key)
+                self.client = genai.Client(api_key=self.api_key, http_options={"timeout": 120000})
                 self.mode = "gemini_api"
                 return
             except Exception as e:
@@ -53,31 +55,37 @@ class CloudAgentClient:
 
     def generate_completion(self, prompt: str, system_instruction: Optional[str] = None, json_mode: bool = False) -> str:
         """
-        Sends prompt to Google Cloud Gemini LLM.
+        Sends prompt to Google Cloud Gemini LLM with exponential backoff, jitter, and multi-model failover.
         """
         if self.is_cloud_connected():
-            models_to_try = ["gemini-3.5-flash-lite", "gemini-3.5-flash", "gemini-3.8-flash"]
+            models_to_try = ["gemini-3.1-flash-lite", "gemini-3.5-flash-lite", "gemini-3.5-flash"]
             for model_name in models_to_try:
-                try:
-                    config = {}
-                    if system_instruction:
-                        config["system_instruction"] = system_instruction
-                    if json_mode:
-                        config["response_mime_type"] = "application/json"
-                        
-                    response = self.client.models.generate_content(
-                        model=model_name,
-                        contents=prompt,
-                        config=config if config else None
-                    )
-                    if response and response.text:
-                        return response.text
-                except Exception as e:
-                    print(f"[Cloud Notice] Model {model_name} attempted: {e}")
-                    # If high demand spike (503), fall directly to local dynamic generator for instant speed
-                    if "503" in str(e) or "UNAVAILABLE" in str(e):
-                        break
-                    continue
+                for attempt in range(1, 5):
+                    try:
+                        config = {}
+                        if system_instruction:
+                            config["system_instruction"] = system_instruction
+                        if json_mode:
+                            config["response_mime_type"] = "application/json"
+                            
+                        response = self.client.models.generate_content(
+                            model=model_name,
+                            contents=prompt,
+                            config=config if config else None
+                        )
+                        if response and response.text:
+                            return response.text
+                    except Exception as e:
+                        err_str = str(e)
+                        is_retryable = any(k in err_str for k in ["503", "429", "504", "UNAVAILABLE", "ResourceExhausted", "timeout", "high demand", "DEADLINE_EXCEEDED"])
+                        if is_retryable and attempt < 4:
+                            backoff = (1.5 ** attempt) + random.uniform(0.2, 0.9)
+                            print(f"[Retry {attempt}/4] Model {model_name} rate limit / load spike. Backoff {backoff:.2f}s...")
+                            time.sleep(backoff)
+                            continue
+                        else:
+                            print(f"[Cloud Notice] Model {model_name} attempt {attempt} failed: {e}")
+                            break
 
         return self._local_dynamic_response(prompt, json_mode)
 

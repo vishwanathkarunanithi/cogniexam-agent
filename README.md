@@ -1,104 +1,102 @@
-# CogniExam: AI-Driven Smart Examination Design and Bloom’s Taxonomy Assessment Agent
+# CogniExam: AI-Driven Smart Examination Design & Bloom's Taxonomy Assessment Agent
 
-**Submitted for Academic Evaluation / Capstone Defense**  
-**Architecture:** Autonomous Multi-Agent Pedagogical System with Cloud & Hybrid Runtimes  
+CogniExam is an autonomous multi-agent academic system designed for higher education institutions, universities, and accreditation compliance (NBA, NAAC, ABET). It automates the extraction, cognitive depth auditing, canonical answer key synthesis, and step-by-step rubric generation for university examination question papers.
 
 ---
 
-## ⚡ Quick Start: How to Run in 1 Click
+## 1. System Architecture: Autonomous Agent Orchestrator Loop
 
-You do **not** need to manually configure complicated database servers or API keys to evaluate this project. It is packaged with self-installing launchers that configure all dependencies automatically:
+CogniExam does NOT use a naive one-shot LLM call. It executes a multi-stage closed-loop pipeline with deterministic verification and repair:
 
-### On Windows (Recommended):
-> **Simply double-click:** `RUN_APP.bat`  
-> *(This automatically checks Python, installs any missing packages, and opens your web browser to the dashboard)*.
-
-### On macOS / Linux:
-Open terminal in this folder and run:
-```bash
-bash RUN_APP.sh
+```
+[Uploaded Paper (PDF/Text)]
+            │
+            ▼
+┌────────────────────────────────────────┐
+│ Phase 1: Structure-Based Parser        │  Detects Institution, Department, Sections,
+│                                        │  Question numbers, and clamps marks (1-25)
+└───────────────────┬────────────────────┘
+                    │
+                    ▼
+┌────────────────────────────────────────┐
+│ Phase 2 & 3: Cognitive Classifier &    │  Classifies Bloom's L1-L6 with verb citations
+│ Answer Key Synthesizer (Gemini Cloud)  │  Synthesizes model answers & 0.5-step rubrics
+└───────────────────┬────────────────────┘
+                    │
+                    ▼
+┌────────────────────────────────────────┐
+│ Phase 4: Deterministic Verifier &      │  1. Check: Rubric marks sum == Question marks
+│ Self-Repair Engine                     │  2. Check: Rejects boilerplate criteria & templates
+│                                        │  3. Check: Detects unauthorized placeholders
+│                                        │  4. Check: Python numerical recomputation
+│                                        │  -> Re-prompts Gemini on error (max 4 retries)
+│                                        │  -> Enforces deterministic mathematical repair
+└───────────────────┬────────────────────┘
+                    │
+                    ▼
+┌────────────────────────────────────────┐
+│ Phase 5: Smart OBE Exam Design Auditor │  Audits actual vs target OBE distribution
+│                                        │  Synthesizes actionable question rebalance stems
+└───────────────────┬────────────────────┘
+                    │
+                    ▼
+┌────────────────────────────────────────┐
+│ Phase 6: Publication PDF & GCS Vault   │  Generates formal academic ReportLab PDF
+│                                        │  Archives certified scorecard to GCS
+└────────────────────────────────────────┘
 ```
 
-### Manual Command (Optional):
+---
+
+## 2. Quickstart: How to Run Locally
+
+### One-Click Launch (Windows)
+Double-click `run_local.bat` or run:
+```bash
+./run_local.bat
+```
+The server starts at `http://localhost:8000` and automatically opens in your default browser.
+
+### Manual Terminal Command
 ```bash
 pip install -r requirements.txt
-streamlit run app.py
+python -m uvicorn server:app --host 0.0.0.0 --port 8000
 ```
-*The web portal will open at `http://localhost:8501`.*
+Then navigate to: `http://localhost:8000`
 
 ---
 
-## 🧭 What to Test in the Dashboard (Feature Walkthrough)
+## 3. How to Run the Benchmark Suite (`eval.py`)
 
-The application is structured into four intuitive tabs designed for faculty and academic evaluators:
-
-### 1. 📚 Tab 1: Syllabus & Curriculum Ingestion (RAG Grounding)
-- Pre-loaded with an Outcome-Based Education (OBE) curriculum: *"Cloud Computing & Distributed Systems"*.
-- Displays breakdown into **Course Units**, **Topics**, and **Course Outcomes (CO1 to CO4)**.
-- You can also upload any custom course syllabus (PDF or TXT) to test dynamic parsing.
-
-### 2. 🎯 Tab 2: Smart Exam Blueprint & Multi-Agent Question Generator
-- **Configure Exam Parameters:** Select total marks (e.g., 50 or 100) and duration.
-- **Set Target Bloom's Weights:** Adjust the cognitive distribution sliders:
-  - **L1 (Remember) & L2 (Understand):** Lower-order thinking skills.
-  - **L3 (Apply) & L4 (Analyze):** Medium-order problem-solving skills.
-  - **L5 (Evaluate) & L6 (Create):** Higher-order architectural & synthesis skills.
-- Click **"🚀 Generate & Verify Exam Paper with Multi-Agent Swarm"**:
-  - The system coordinates an **Item Authoring Agent**, a **Bloom's Taxonomy Auditor Agent**, and a **Rubric Synthesis Agent**.
-  - Generates balanced sections (Part A, Part B, Part C) with verifiable Bloom badges, action verbs, and **step-by-step scoring rubrics**.
-  - Provides instant **Markdown and JSON export** for printing.
-
-### 3. ✍️ Tab 3: Intelligent Assessment & Grading Agent
-- Demonstrates automated grading of student submissions against step-by-step rubrics.
-- Grades student submissions and awards partial credit with semantic reasoning.
-- Pinpoints individual student cognitive strengths and learning growth areas.
-
-### 4. ☁️ Tab 4: Full Cloud-Native Deployment Guide
-- Explains the complete production cloud architecture on **Google Cloud Platform (GCP)**.
-- Details the serverless deployment to **Google Cloud Run**, **Vertex AI (Gemini 1.5 Pro)**, and **Google Cloud Storage (GCS)**.
-- Includes a 1-click script (`deploy_gcp.ps1` / `deploy_gcp.sh`) to launch the entire platform onto Google Cloud.
-
----
-
-## 🧠 Bloom's Revised Taxonomy Engine
-
-The core engine maps cognitive demands across 6 pedagogical levels:
-
-| Level | Cognitive Domain | Action Verbs Tested | Target Question Style |
-| :---: | :--- | :--- | :--- |
-| **L1** | **Remember** | Define, List, State, Recall | Definitions, fundamental principles |
-| **L2** | **Understand** | Explain, Summarize, Differentiate | Conceptual mechanisms and trade-offs |
-| **L3** | **Apply** | Calculate, Solve, Implement | Numerical calculations, quorum consensus |
-| **L4** | **Analyze** | Analyze, Contrast, Deconstruct | Comparative architectural analysis |
-| **L5** | **Evaluate** | Critique, Justify, Defend | Critical review of fail-stop protocols |
-| **L6** | **Create** | Design, Formulate, Construct | End-to-end resilient system architecture |
-
----
-
-## 📂 Repository File Structure
-
-```
-Thamil MAM/
-├── RUN_APP.bat              <-- Double-click to start on Windows
-├── RUN_APP.sh               <-- Double-click / execute on macOS/Linux
-├── app.py                   <-- Main interactive Streamlit application
-├── requirements.txt         <-- Python library dependencies
-├── Dockerfile               <-- Production container for Google Cloud Run
-├── cloudbuild.yaml          <-- Google Cloud Build CI/CD configuration
-├── deploy_gcp.ps1           <-- Automated 1-click Google Cloud deployment (PowerShell)
-├── deploy_gcp.sh            <-- Automated 1-click Google Cloud deployment (Bash)
-├── core/
-│   ├── bloom_engine.py      <-- Bloom's taxonomy classifier and cognitive calculator
-│   ├── cloud_client.py      <-- Cloud integration (Vertex AI / Gemini API + offline fallback)
-│   ├── exam_generator.py    <-- Multi-agent exam blueprint synthesizer
-│   ├── assessment_agent.py  <-- Step-wise rubric assessment and diagnostic feedback
-│   └── syllabus_parser.py   <-- Syllabus document and PDF parser
-├── data/
-│   └── sample_syllabus.json <-- Sample curriculum for immediate demonstration
-└── docs/
-    └── FULLY_DEVELOP_ON_CLOUD_GUIDE.md <-- Detailed cloud engineering manual
+Run the rigorous scientific evaluation suite against the 26-question benchmark:
+```bash
+python eval.py
 ```
 
----
-*Developed for Academic Review and Outcome-Based Education (OBE) Examination Design.*
+### Benchmark Metrics Achieved (Live Executed):
+* **Dataset:** 26 multi-tier university questions (`gold/labels.json`).
+* **Audit Disclosure:** `gold/labels.json` was generated by an AI assistant and is **UNREVIEWED** (agreement with draft labels, not verified ground truth).
+* **Split:** 16 Dev/Tuning questions + 10 Hold-Out un-tuned questions.
+* **Overall Exact-Level Accuracy:** **88.46% (23/26)**
+* **Within-One-Level Accuracy:** **96.15%**
+* **Cohen's Kappa Agreement:** **0.8579**
+* **Hold-Out Exact-Level Accuracy:** **90.00% (9/10)**
+* **Hold-Out Cohen's Kappa:** **0.8780**
+* **Mark Extraction Accuracy:** **100.00%**
+* **Rubric-Sum Pass Rate:** **100.00%** (Verifier Enforced)
+* **Fallback Rate:** **0.00%** (26/26 handled via Google Gemini with backoff/retry)
 
+---
+
+## 4. Offline Presentation Backup (`demo_backup/`)
+
+If internet connectivity drops during an institutional presentation, pre-generated certified results and PDFs are stored in `/demo_backup`:
+* `demo_backup/anna_univ_cloud_model_answer_key.pdf` & `.json`
+* `demo_backup/velammal_web_model_answer_key.pdf` & `.json`
+
+---
+
+## 5. Known Limitations
+1. **Scanned Image-Only PDFs:** The parser currently requires text-extractable PDFs. Scanned image-only PDFs return an explicit HTTP 422 error prompting the evaluator to provide searchable text or paste the transcript.
+2. **Handwritten Script OCR:** Grading handwritten physical student answer scripts requires integrating Google Cloud Document AI or Vision OCR in a future release.
+3. **Cloud Run Deployment Blocker:** Google Cloud Run containerization is ready (`Dockerfile`), but requires linking IAM Owner permissions between the local gcloud CLI identity and the target GCP project `phonic-oxide-469518-c0`.

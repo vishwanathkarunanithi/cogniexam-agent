@@ -1,0 +1,129 @@
+{
+  "paper_id": "QP-20261112-55C16C",
+  "course_title": "Unit Test Distributed Systems",
+  "timestamp": "2026-11-12T22:51:33.512395",
+  "cloud_uri": "gs://cogniexam-paper-vault/QP-20261112-55C16C.json",
+  "total_questions": 2,
+  "total_marks": 10,
+  "bloom_index": 1.5,
+  "verdict": "Predominantly Lower-Order Thinking (L1/L2) - Recommend adding higher-order analytical problems.",
+  "paper_text": "1. Define CAP Theorem. [5 Marks]\n2. Explain two-phase commit consensus. [5 Marks]",
+  "analysis_result": {
+    "institution_header": "UNIVERSITY / INSTITUTION OF TECHNOLOGY - OFFICIAL MODEL ANSWER KEY & BLOOM'S EVALUATION SCHEME",
+    "institution_name": "UNIVERSITY / INSTITUTION OF TECHNOLOGY",
+    "department": "DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING",
+    "course_title": "Unit Test Distributed Systems",
+    "exam_title": "UNIVERSITY / INSTITUTION OF TECHNOLOGY - OFFICIAL MODEL ANSWER KEY & BLOOM'S EVALUATION SCHEME",
+    "disclaimer": "IMPORTANT FACULTY & EVALUATOR GUIDANCE (STUDENT OWN-WORDS EVALUATION):\nStudents are encouraged to express technical explanations, derivations, and arguments in their own words. Evaluators MUST award full or proportional marks whenever the fundamental conceptual logic, necessary technical principles, and core propositions are present, even if the student's phrasing differs from the canonical model answer. Please refer to the 'Key Semantic Criteria for Student Own Words' section provided under each question.",
+    "total_questions": 2,
+    "total_marks": 10,
+    "bloom_index": 1.5,
+    "verdict": "Predominantly Lower-Order Thinking (L1/L2) - Recommend adding higher-order analytical problems.",
+    "metrics": {
+      "total_marks": 10,
+      "distribution": {
+        "L1": {
+          "marks": 5,
+          "count": 1,
+          "percentage": 50.0,
+          "name": "Remember"
+        },
+        "L2": {
+          "marks": 5,
+          "count": 1,
+          "percentage": 50.0,
+          "name": "Understand"
+        },
+        "L3": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Apply"
+        },
+        "L4": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Analyze"
+        },
+        "L5": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Evaluate"
+        },
+        "L6": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Create"
+        }
+      },
+      "low_order_pct": 100.0,
+      "medium_order_pct": 0.0,
+      "high_order_pct": 0.0
+    },
+    "questions": [
+      {
+        "q_no": "1",
+        "section": "PART A",
+        "question": "Define CAP Theorem. [5 Marks]",
+        "marks": 5,
+        "bloom_level": "L1",
+        "bloom_name": "Remember",
+        "action_verb": "L1",
+        "justification": "Cognitive demand calibrated at L1 (Remember) requiring structured technical derivation and analytical reasoning.",
+        "model_answer": "Comprehensive Academic Solution:\n1. Conceptual Definition & Core Principle: The problem addresses the fundamental mechanics of Define CAP Theorem. [5 Marks]. In distributed and enterprise architectures, this enforces deterministic state transitions and prevents split-brain anomalies.\n2. Mathematical / Architectural Derivation: Applying standard protocols ensures linearizable execution paths. Key equations, algorithms, and topological structures must maintain bounded latency and high throughput.\n3. Operational Trade-offs & Conclusion: The trade-off directly impacts performance, consistency, and resilience against failures.",
+        "rubric": [
+          {
+            "criterion": "Fundamental concept definition & core terminology",
+            "marks": 1.8
+          },
+          {
+            "criterion": "Technical derivation / diagram / calculation / implementation logic",
+            "marks": 2.2
+          },
+          {
+            "criterion": "Analytical interpretation, accuracy & concluding justification",
+            "marks": 1.0
+          }
+        ],
+        "own_words_criteria": [
+          "Presence of core domain principles and accurate terminology",
+          "Valid step-wise logical reasoning or derivation even if colloquial words are used",
+          "Correct final conclusion or calculation outcome"
+        ]
+      },
+      {
+        "q_no": "2",
+        "section": "PART A",
+        "question": "Explain two-phase commit consensus. [5 Marks]",
+        "marks": 5,
+        "bloom_level": "L2",
+        "bloom_name": "Understand",
+        "action_verb": "L2",
+        "justification": "Cognitive demand calibrated at L2 (Understand) requiring structured technical derivation and analytical reasoning.",
+        "model_answer": "Comprehensive Academic Solution:\n1. Conceptual Definition & Core Principle: The problem addresses the fundamental mechanics of Explain two-phase commit consensus. [5 Marks]. In distributed and enterprise architectures, this enforces deterministic state transitions and prevents split-brain anomalies.\n2. Mathematical / Architectural Derivation: Applying standard protocols ensures linearizable execution paths. Key equations, algorithms, and topological structures must maintain bounded latency and high throughput.\n3. Operational Trade-offs & Conclusion: The trade-off directly impacts performance, consistency, and resilience against failures.",
+        "rubric": [
+          {
+            "criterion": "Fundamental concept definition & core terminology",
+            "marks": 1.8
+          },
+          {
+            "criterion": "Technical derivation / diagram / calculation / implementation logic",
+            "marks": 2.2
+          },
+          {
+            "criterion": "Analytical interpretation, accuracy & concluding justification",
+            "marks": 1.0
+          }
+        ],
+        "own_words_criteria": [
+          "Presence of core domain principles and accurate terminology",
+          "Valid step-wise logical reasoning or derivation even if colloquial words are used",
+          "Correct final conclusion or calculation outcome"
+        ]
+      }
+    ]
+  }
+}

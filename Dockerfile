@@ -1,30 +1,29 @@
-# Production-Grade Container for Google Cloud Run / AWS ECS
+# Production-Grade Container for Hugging Face Spaces / Cloud Run
 FROM python:3.11-slim
 
-# Prevent Python from writing .pyc and enable bufferless logging
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PORT=8080
+    PORT=7860
 
 WORKDIR /app
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy and install python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application source
-COPY . .
+# Create non-root user (UID 1000) standard for Hugging Face Spaces
+RUN useradd -m -u 1000 user
+USER user
+ENV HOME=/home/user \
+    PATH=/home/user/.local/bin:$PATH
 
-# Expose standard Cloud Run port
-EXPOSE 8080
+WORKDIR /home/user/app
+COPY --chown=user:user . .
 
-# Run Streamlit on container launch
-HEALTHCHECK CMD curl --fail http://localhost:8080/_stcore/health || exit 1
-ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0", "--server.enableCORS=false"]
+EXPOSE 7860
 
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "7860"]

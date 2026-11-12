@@ -1,0 +1,220 @@
+{
+  "metadata": {
+    "dataset_name": "CogniExam Comprehensive OBE Benchmark",
+    "status": "draft, unreviewed",
+    "disclaimer": "agreement with draft labels, not verified ground truth",
+    "total_questions": 26,
+    "source_papers": ["Anna University CS8791 Cloud Computing", "Velammal Autonomous IT8401 Web Technologies"]
+  },
+  "questions": [
+    {
+      "q_no": "1",
+      "question": "Define Cloud Computing and state NIST essential characteristics.",
+      "marks": 2,
+      "bloom_level": "L1",
+      "bloom_name": "Remember",
+      "section": "PART A"
+    },
+    {
+      "q_no": "2",
+      "question": "What is the primary difference between horizontal and vertical elasticity?",
+      "marks": 2,
+      "bloom_level": "L2",
+      "bloom_name": "Understand",
+      "section": "PART A"
+    },
+    {
+      "q_no": "3",
+      "question": "Identify two distinct advantages of Type-1 bare metal hypervisors over Type-2 hosted hypervisors.",
+      "marks": 2,
+      "bloom_level": "L2",
+      "bloom_name": "Understand",
+      "section": "PART A"
+    },
+    {
+      "q_no": "4",
+      "question": "Define the PACELC theorem and explain how it extends the CAP theorem.",
+      "marks": 2,
+      "bloom_level": "L2",
+      "bloom_name": "Understand",
+      "section": "PART A"
+    },
+    {
+      "q_no": "5",
+      "question": "State the formula for calculating cloud resource availability across two redundant availability zones.",
+      "marks": 2,
+      "bloom_level": "L1",
+      "bloom_name": "Remember",
+      "section": "PART A"
+    },
+    {
+      "q_no": "6",
+      "question": "Explain the architectural differences between Google File System (GFS) and Apache Hadoop HDFS.",
+      "marks": 2,
+      "bloom_level": "L2",
+      "bloom_name": "Understand",
+      "section": "PART A"
+    },
+    {
+      "q_no": "7",
+      "question": "List four core features of container runtime specifications under OCI standards.",
+      "marks": 2,
+      "bloom_level": "L1",
+      "bloom_name": "Remember",
+      "section": "PART A"
+    },
+    {
+      "q_no": "8",
+      "question": "Define MapReduce split and explain how speculative execution mitigates straggler tasks.",
+      "marks": 2,
+      "bloom_level": "L2",
+      "bloom_name": "Understand",
+      "section": "PART A"
+    },
+    {
+      "q_no": "9",
+      "question": "State the CAP theorem trade-off adopted by Apache Cassandra versus Apache HBase.",
+      "marks": 2,
+      "bloom_level": "L2",
+      "bloom_name": "Understand",
+      "section": "PART A"
+    },
+    {
+      "q_no": "10",
+      "question": "What is the purpose of a sidecar proxy pattern in a microservices service mesh?",
+      "marks": 2,
+      "bloom_level": "L2",
+      "bloom_name": "Understand",
+      "section": "PART A"
+    },
+    {
+      "q_no": "11",
+      "question": "Calculate the effective network throughput and round-trip delay for a 10 Gbps interconnect transferring a 500 MB dataset across two datacenters with 5 ms propagation delay.",
+      "marks": 13,
+      "bloom_level": "L3",
+      "bloom_name": "Apply",
+      "section": "PART B"
+    },
+    {
+      "q_no": "12",
+      "question": "Apply consistent hashing with virtual nodes to distribute 10,000 keys across 4 physical servers and compute the redistribution overhead when one server fails.",
+      "marks": 13,
+      "bloom_level": "L3",
+      "bloom_name": "Apply",
+      "section": "PART B"
+    },
+    {
+      "q_no": "13",
+      "question": "Analyze the consensus safety and liveness guarantees of the Raft protocol during a network partition scenario.",
+      "marks": 13,
+      "bloom_level": "L4",
+      "bloom_name": "Analyze",
+      "section": "PART B"
+    },
+    {
+      "q_no": "14",
+      "question": "Deconstruct the CPU scheduling mechanics and memory ballooning techniques employed by Xen hypervisor under high memory pressure.",
+      "marks": 13,
+      "bloom_level": "L4",
+      "bloom_name": "Analyze",
+      "section": "PART B"
+    },
+    {
+      "q_no": "15",
+      "question": "Evaluate the financial and architectural trade-offs of migrating an on-premise transactional monolith to serverless AWS Lambda versus Google Cloud Run.",
+      "marks": 15,
+      "bloom_level": "L5",
+      "bloom_name": "Evaluate",
+      "section": "PART C"
+    },
+    {
+      "q_no": "16",
+      "question": "Critique the zero-trust security perimeter architecture against traditional VPN-based bastion host architecture for cloud deployments.",
+      "marks": 15,
+      "bloom_level": "L5",
+      "bloom_name": "Evaluate",
+      "section": "PART C"
+    },
+    {
+      "q_no": "17",
+      "question": "Design an automated, multi-region disaster recovery pipeline achieving RPO under 1 minute and RTO under 5 minutes for a critical banking ledger.",
+      "marks": 15,
+      "bloom_level": "L6",
+      "bloom_name": "Create",
+      "section": "PART C"
+    },
+    {
+      "q_no": "18",
+      "question": "Define the Document Object Model (DOM) and describe how event bubbling works in modern JavaScript.",
+      "marks": 2,
+      "bloom_level": "L1",
+      "bloom_name": "Remember",
+      "section": "PART A"
+    },
+    {
+      "q_no": "19",
+      "question": "Differentiate between WebSockets and HTTP/2 Server-Sent Events (SSE) with respect to full-duplex communication.",
+      "marks": 2,
+      "bloom_level": "L2",
+      "bloom_name": "Understand",
+      "section": "PART A"
+    },
+    {
+      "q_no": "20",
+      "question": "Explain how JSON Web Tokens (JWT) maintain stateless authentication and describe the structure of its three segments.",
+      "marks": 2,
+      "bloom_level": "L2",
+      "bloom_name": "Understand",
+      "section": "PART A"
+    },
+    {
+      "q_no": "21",
+      "question": "Demonstrate with code how to implement an asynchronous debouncing decorator in TypeScript to throttle high-frequency search input events.",
+      "marks": 13,
+      "bloom_level": "L3",
+      "bloom_name": "Apply",
+      "section": "PART B"
+    },
+    {
+      "q_no": "22",
+      "question": "Implement an ACID-compliant transaction using MongoDB multi-document transactions in Python.",
+      "marks": 13,
+      "bloom_level": "L3",
+      "bloom_name": "Apply",
+      "section": "PART B"
+    },
+    {
+      "q_no": "23",
+      "question": "Analyze Cross-Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) attack vectors, comparing their exploitation mechanisms and modern Content Security Policy defenses.",
+      "marks": 13,
+      "bloom_level": "L4",
+      "bloom_name": "Analyze",
+      "section": "PART B"
+    },
+    {
+      "q_no": "24",
+      "question": "Deconstruct the Virtual DOM reconciliation algorithm in React, detailing its heuristic assumptions and key prop optimization.",
+      "marks": 13,
+      "bloom_level": "L4",
+      "bloom_name": "Analyze",
+      "section": "PART B"
+    },
+    {
+      "q_no": "25",
+      "question": "Evaluate relational schema normal forms (3NF vs BCNF) versus Denormalized Document stores for an ultra-high concurrency ecommerce platform.",
+      "marks": 15,
+      "bloom_level": "L5",
+      "bloom_name": "Evaluate",
+      "section": "PART C"
+    },
+    {
+      "q_no": "26",
+      "question": "Design a resilient micro-frontend architecture with dynamic federated modules, isolated styling, and centralized authentication state management.",
+      "marks": 15,
+      "bloom_level": "L6",
+      "bloom_name": "Create",
+      "section": "PART C"
+    }
+  ]
+}
+

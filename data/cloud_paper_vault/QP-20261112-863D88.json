@@ -1,0 +1,279 @@
+{
+  "paper_id": "QP-20261112-863D88",
+  "course_title": "CS8492 - Database Management Systems",
+  "timestamp": "2026-11-12T23:08:17.875443",
+  "cloud_uri": "gs://cogniexam-paper-vault/QP-20261112-863D88.json",
+  "total_questions": 7,
+  "total_marks": 50,
+  "bloom_index": 4.96,
+  "verdict": "Rigorous Higher-Order Thinking Focus (L4-L6) - Emphasizes analytical evaluation and novel architecture design.",
+  "paper_text": "VELAMMAL INSTITUTE OF TECHNOLOGY\nDEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING\nEND SEMESTER DEGREE EXAMINATIONS\nCS8492 - DATABASE MANAGEMENT SYSTEMS\nTime: 3 Hours                                                     Max Marks: 50\n\nPART A - (5 x 4 = 20 Marks)\n1. State the ACID properties of a database transaction and explain the role of the write-ahead log (WAL). [4 Marks]\n2. Differentiate between B-Tree and B+ Tree index structures in terms of range query performance. [4 Marks]\n3. Define Boyce-Codd Normal Form (BCNF) and distinguish it from Third Normal Form (3NF). [4 Marks]\n4. Explain the phantom read problem and how Serializable isolation prevents it. [4 Marks]\n5. Illustrate the conflict serializability of a schedule using a precedence (serialization) graph. [4 Marks]\n\nPART B - (2 x 15 = 30 Marks)\n6. (a) Given a relational schema R(A, B, C, D, E) with Functional Dependencies F = { A->BC, CD->E, B->D, E->A }. Determine the candidate keys of R, decompose R into BCNF, and analyze if the decomposition is lossless and dependency-preserving. [15 Marks]\n7. (a) Design a comprehensive recovery protocol using Two-Phase Locking (2PL) and ARIES algorithm for a distributed flight reservation system during concurrent crashes. [15 Marks]",
+  "analysis_result": {
+    "institution_header": "VELAMMAL INSTITUTE OF TECHNOLOGY - OFFICIAL MODEL ANSWER KEY & BLOOM'S EVALUATION SCHEME",
+    "institution_name": "VELAMMAL INSTITUTE OF TECHNOLOGY",
+    "department": "DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING",
+    "course_title": "CS8492 - Database Management Systems",
+    "exam_title": "VELAMMAL INSTITUTE OF TECHNOLOGY - OFFICIAL MODEL ANSWER KEY & BLOOM'S EVALUATION SCHEME",
+    "disclaimer": "IMPORTANT FACULTY & EVALUATOR GUIDANCE (STUDENT OWN-WORDS EVALUATION):\nStudents are encouraged to express technical explanations, derivations, and arguments in their own words. Evaluators MUST award full or proportional marks whenever the fundamental conceptual logic, necessary technical principles, and core propositions are present, even if the student's phrasing differs from the canonical model answer. Please refer to the 'Key Semantic Criteria for Student Own Words' section provided under each question.",
+    "total_questions": 7,
+    "total_marks": 50,
+    "bloom_index": 4.96,
+    "verdict": "Rigorous Higher-Order Thinking Focus (L4-L6) - Emphasizes analytical evaluation and novel architecture design.",
+    "metrics": {
+      "total_marks": 50,
+      "distribution": {
+        "L1": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Remember"
+        },
+        "L2": {
+          "marks": 8,
+          "count": 2,
+          "percentage": 16.0,
+          "name": "Understand"
+        },
+        "L3": {
+          "marks": 0,
+          "count": 0,
+          "percentage": 0.0,
+          "name": "Apply"
+        },
+        "L4": {
+          "marks": 8,
+          "count": 2,
+          "percentage": 16.0,
+          "name": "Analyze"
+        },
+        "L5": {
+          "marks": 4,
+          "count": 1,
+          "percentage": 8.0,
+          "name": "Evaluate"
+        },
+        "L6": {
+          "marks": 30,
+          "count": 2,
+          "percentage": 60.0,
+          "name": "Create"
+        }
+      },
+      "low_order_pct": 16.0,
+      "medium_order_pct": 16.0,
+      "high_order_pct": 68.0
+    },
+    "questions": [
+      {
+        "q_no": "1",
+        "section": "PART A",
+        "question": "State the ACID properties of a database transaction and explain the role of the write-ahead log (WAL). [4 Marks]",
+        "marks": 4,
+        "bloom_level": "L2",
+        "bloom_name": "Understand",
+        "action_verb": "L1",
+        "justification": "Cognitive demand calibrated at L2 (Understand) requiring structured technical derivation and analytical reasoning.",
+        "model_answer": "Comprehensive Academic Solution:\n1. Conceptual Definition & Core Principle: The problem addresses the fundamental mechanics of State the ACID properties of a database transaction and explain the role of the . In distributed and enterprise architectures, this enforces deterministic state transitions and prevents split-brain anomalies.\n2. Mathematical / Architectural Derivation: Applying standard protocols ensures linearizable execution paths. Key equations, algorithms, and topological structures must maintain bounded latency and high throughput.\n3. Operational Trade-offs & Conclusion: The trade-off directly impacts performance, consistency, and resilience against failures.",
+        "rubric": [
+          {
+            "criterion": "Fundamental concept definition & core terminology",
+            "marks": 1.4
+          },
+          {
+            "criterion": "Technical derivation / diagram / calculation / implementation logic",
+            "marks": 1.8
+          },
+          {
+            "criterion": "Analytical interpretation, accuracy & concluding justification",
+            "marks": 0.8
+          }
+        ],
+        "own_words_criteria": [
+          "Presence of core domain principles and accurate terminology",
+          "Valid step-wise logical reasoning or derivation even if colloquial words are used",
+          "Correct final conclusion or calculation outcome"
+        ]
+      },
+      {
+        "q_no": "2",
+        "section": "PART A",
+        "question": "Differentiate between B-Tree and B+ Tree index structures in terms of range query performance. [4 Marks]",
+        "marks": 4,
+        "bloom_level": "L4",
+        "bloom_name": "Analyze",
+        "action_verb": "L4",
+        "justification": "Cognitive demand calibrated at L4 (Analyze) requiring structured technical derivation and analytical reasoning.",
+        "model_answer": "Comprehensive Academic Solution:\n1. Conceptual Definition & Core Principle: The problem addresses the fundamental mechanics of Differentiate between B-Tree and B+ Tree index structures in terms of range quer. In distributed and enterprise architectures, this enforces deterministic state transitions and prevents split-brain anomalies.\n2. Mathematical / Architectural Derivation: Applying standard protocols ensures linearizable execution paths. Key equations, algorithms, and topological structures must maintain bounded latency and high throughput.\n3. Operational Trade-offs & Conclusion: The trade-off directly impacts performance, consistency, and resilience against failures.",
+        "rubric": [
+          {
+            "criterion": "Fundamental concept definition & core terminology",
+            "marks": 1.4
+          },
+          {
+            "criterion": "Technical derivation / diagram / calculation / implementation logic",
+            "marks": 1.8
+          },
+          {
+            "criterion": "Analytical interpretation, accuracy & concluding justification",
+            "marks": 0.8
+          }
+        ],
+        "own_words_criteria": [
+          "Presence of core domain principles and accurate terminology",
+          "Valid step-wise logical reasoning or derivation even if colloquial words are used",
+          "Correct final conclusion or calculation outcome"
+        ]
+      },
+      {
+        "q_no": "3",
+        "section": "PART A",
+        "question": "Define Boyce-Codd Normal Form (BCNF) and distinguish it from Third Normal Form (3NF). [4 Marks]",
+        "marks": 4,
+        "bloom_level": "L4",
+        "bloom_name": "Analyze",
+        "action_verb": "L1",
+        "justification": "Cognitive demand calibrated at L4 (Analyze) requiring structured technical derivation and analytical reasoning.",
+        "model_answer": "Comprehensive Academic Solution:\n1. Conceptual Definition & Core Principle: The problem addresses the fundamental mechanics of Define Boyce-Codd Normal Form (BCNF) and distinguish it from Third Normal Form (. In distributed and enterprise architectures, this enforces deterministic state transitions and prevents split-brain anomalies.\n2. Mathematical / Architectural Derivation: Applying standard protocols ensures linearizable execution paths. Key equations, algorithms, and topological structures must maintain bounded latency and high throughput.\n3. Operational Trade-offs & Conclusion: The trade-off directly impacts performance, consistency, and resilience against failures.",
+        "rubric": [
+          {
+            "criterion": "Fundamental concept definition & core terminology",
+            "marks": 1.4
+          },
+          {
+            "criterion": "Technical derivation / diagram / calculation / implementation logic",
+            "marks": 1.8
+          },
+          {
+            "criterion": "Analytical interpretation, accuracy & concluding justification",
+            "marks": 0.8
+          }
+        ],
+        "own_words_criteria": [
+          "Presence of core domain principles and accurate terminology",
+          "Valid step-wise logical reasoning or derivation even if colloquial words are used",
+          "Correct final conclusion or calculation outcome"
+        ]
+      },
+      {
+        "q_no": "4",
+        "section": "PART A",
+        "question": "Explain the phantom read problem and how Serializable isolation prevents it. [4 Marks]",
+        "marks": 4,
+        "bloom_level": "L2",
+        "bloom_name": "Understand",
+        "action_verb": "L2",
+        "justification": "Cognitive demand calibrated at L2 (Understand) requiring structured technical derivation and analytical reasoning.",
+        "model_answer": "Comprehensive Academic Solution:\n1. Conceptual Definition & Core Principle: The problem addresses the fundamental mechanics of Explain the phantom read problem and how Serializable isolation prevents it. [4 . In distributed and enterprise architectures, this enforces deterministic state transitions and prevents split-brain anomalies.\n2. Mathematical / Architectural Derivation: Applying standard protocols ensures linearizable execution paths. Key equations, algorithms, and topological structures must maintain bounded latency and high throughput.\n3. Operational Trade-offs & Conclusion: The trade-off directly impacts performance, consistency, and resilience against failures.",
+        "rubric": [
+          {
+            "criterion": "Fundamental concept definition & core terminology",
+            "marks": 1.4
+          },
+          {
+            "criterion": "Technical derivation / diagram / calculation / implementation logic",
+            "marks": 1.8
+          },
+          {
+            "criterion": "Analytical interpretation, accuracy & concluding justification",
+            "marks": 0.8
+          }
+        ],
+        "own_words_criteria": [
+          "Presence of core domain principles and accurate terminology",
+          "Valid step-wise logical reasoning or derivation even if colloquial words are used",
+          "Correct final conclusion or calculation outcome"
+        ]
+      },
+      {
+        "q_no": "5",
+        "section": "PART A",
+        "question": "Illustrate the conflict serializability of a schedule using a precedence (serialization) graph. [4 Marks]",
+        "marks": 4,
+        "bloom_level": "L5",
+        "bloom_name": "Evaluate",
+        "action_verb": "L2",
+        "justification": "Cognitive demand calibrated at L5 (Evaluate) requiring structured technical derivation and analytical reasoning.",
+        "model_answer": "Comprehensive Academic Solution:\n1. Conceptual Definition & Core Principle: The problem addresses the fundamental mechanics of Illustrate the conflict serializability of a schedule using a precedence (serial. In distributed and enterprise architectures, this enforces deterministic state transitions and prevents split-brain anomalies.\n2. Mathematical / Architectural Derivation: Applying standard protocols ensures linearizable execution paths. Key equations, algorithms, and topological structures must maintain bounded latency and high throughput.\n3. Operational Trade-offs & Conclusion: The trade-off directly impacts performance, consistency, and resilience against failures.",
+        "rubric": [
+          {
+            "criterion": "Fundamental concept definition & core terminology",
+            "marks": 1.4
+          },
+          {
+            "criterion": "Technical derivation / diagram / calculation / implementation logic",
+            "marks": 1.8
+          },
+          {
+            "criterion": "Analytical interpretation, accuracy & concluding justification",
+            "marks": 0.8
+          }
+        ],
+        "own_words_criteria": [
+          "Presence of core domain principles and accurate terminology",
+          "Valid step-wise logical reasoning or derivation even if colloquial words are used",
+          "Correct final conclusion or calculation outcome"
+        ]
+      },
+      {
+        "q_no": "6",
+        "section": "PART B",
+        "question": "(a) Given a relational schema R(A, B, C, D, E) with Functional Dependencies F = { A->BC, CD->E, B->D, E->A }. Determine the candidate keys of R, decompose R into BCNF, and analyze if the decomposition is lossless and dependency-preserving. [15 Marks]",
+        "marks": 15,
+        "bloom_level": "L6",
+        "bloom_name": "Create",
+        "action_verb": "L4",
+        "justification": "Cognitive demand calibrated at L6 (Create) requiring structured technical derivation and analytical reasoning.",
+        "model_answer": "Comprehensive Academic Solution:\n1. Conceptual Definition & Core Principle: The problem addresses the fundamental mechanics of (a) Given a relational schema R(A, B, C, D, E) with Functional Dependencies F = . In distributed and enterprise architectures, this enforces deterministic state transitions and prevents split-brain anomalies.\n2. Mathematical / Architectural Derivation: Applying standard protocols ensures linearizable execution paths. Key equations, algorithms, and topological structures must maintain bounded latency and high throughput.\n3. Operational Trade-offs & Conclusion: The trade-off directly impacts performance, consistency, and resilience against failures.",
+        "rubric": [
+          {
+            "criterion": "Fundamental concept definition & core terminology",
+            "marks": 5.2
+          },
+          {
+            "criterion": "Technical derivation / diagram / calculation / implementation logic",
+            "marks": 6.8
+          },
+          {
+            "criterion": "Analytical interpretation, accuracy & concluding justification",
+            "marks": 3.0
+          }
+        ],
+        "own_words_criteria": [
+          "Presence of core domain principles and accurate terminology",
+          "Valid step-wise logical reasoning or derivation even if colloquial words are used",
+          "Correct final conclusion or calculation outcome"
+        ]
+      },
+      {
+        "q_no": "7",
+        "section": "PART B",
+        "question": "(a) Design a comprehensive recovery protocol using Two-Phase Locking (2PL) and ARIES algorithm for a distributed flight reservation system during concurrent crashes. [15 Marks]",
+        "marks": 15,
+        "bloom_level": "L6",
+        "bloom_name": "Create",
+        "action_verb": "L6",
+        "justification": "Cognitive demand calibrated at L6 (Create) requiring structured technical derivation and analytical reasoning.",
+        "model_answer": "Comprehensive Academic Solution:\n1. Conceptual Definition & Core Principle: The problem addresses the fundamental mechanics of (a) Design a comprehensive recovery protocol using Two-Phase Locking (2PL) and A. In distributed and enterprise architectures, this enforces deterministic state transitions and prevents split-brain anomalies.\n2. Mathematical / Architectural Derivation: Applying standard protocols ensures linearizable execution paths. Key equations, algorithms, and topological structures must maintain bounded latency and high throughput.\n3. Operational Trade-offs & Conclusion: The trade-off directly impacts performance, consistency, and resilience against failures.",
+        "rubric": [
+          {
+            "criterion": "Fundamental concept definition & core terminology",
+            "marks": 5.2
+          },
+          {
+            "criterion": "Technical derivation / diagram / calculation / implementation logic",
+            "marks": 6.8
+          },
+          {
+            "criterion": "Analytical interpretation, accuracy & concluding justification",
+            "marks": 3.0
+          }
+        ],
+        "own_words_criteria": [
+          "Presence of core domain principles and accurate terminology",
+          "Valid step-wise logical reasoning or derivation even if colloquial words are used",
+          "Correct final conclusion or calculation outcome"
+        ]
+      }
+    ]
+  }
+}

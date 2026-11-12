@@ -1,0 +1,8 @@
+test_papers/
+demo_backup/
+.git
+.gitignore
+__pycache__
+*.pyc
+.env
+
