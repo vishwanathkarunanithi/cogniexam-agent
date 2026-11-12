@@ -1,0 +1,16 @@
+DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING
+END SEMESTER EXAMINATION: CS8401 - CLOUD COMPUTING & DISTRIBUTED SYSTEMS
+Time: 3 Hours                                                     Max Marks: 50
+
+PART A (Answer all questions - 2 x 5 = 10 Marks)
+1. Define the CAP Theorem and explain why network partition tolerance is mandatory in distributed systems. [5 Marks]
+2. Explain the difference between Type-1 bare-metal hypervisors and Type-2 hosted hypervisors with suitable examples. [5 Marks]
+
+PART B (Answer all questions - 3 x 10 = 30 Marks)
+3. A financial banking transaction system requires strict linearizability across 5 replicated database nodes. Apply a Quorum consensus algorithm (N=5, R=3, W=3) and calculate whether concurrent reads and writes will ever experience stale reads. [10 Marks]
+4. Differentiate between Paxos and Raft consensus protocols. Analyze how leader election and log compaction differ between them. [10 Marks]
+5. Evaluate the trade-offs of microservices architecture versus monolithic architecture in terms of deployment velocity, fault isolation, and distributed tracing complexity. [10 Marks]
+
+PART C (Application & Design - 1 x 10 = 10 Marks)
+6. Design an auto-scaling, fault-tolerant distributed streaming architecture on Google Cloud that handles 100,000 sensor events per second with zero data loss. Justify your selection of message queues, processing engines, and persistent storage tiers. [10 Marks]
+

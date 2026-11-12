@@ -1,0 +1,54 @@
+{
+  "course_code": "CS8401",
+  "course_name": "Cloud Computing & Distributed Systems",
+  "department": "Computer Science and Engineering",
+  "credits": 4,
+  "units": [
+    {
+      "unit_no": 1,
+      "title": "Distributed System Fundamentals & Consistency",
+      "topics": [
+        "Distributed System Models: synchronous vs asynchronous systems",
+        "Logical clocks and Lamport timestamps",
+        "CAP Theorem: Consistency, Availability, Partition Tolerance trade-offs",
+        "Distributed consensus protocols: Paxos, Raft, and Two-Phase Commit (2PC)",
+        "Quorum consensus systems (N, R, W parameters)"
+      ],
+      "course_outcome": "CO1"
+    },
+    {
+      "unit_no": 2,
+      "title": "Cloud Virtualization and Resource Management",
+      "topics": [
+        "Hardware virtualization vs containerization (Docker, cgroups, namespaces)",
+        "Hypervisors: Type 1 bare-metal vs Type 2 hosted",
+        "Serverless computing paradigms and cold start mitigation",
+        "Auto-scaling algorithms: reactive threshold vs predictive queue-based scaling"
+      ],
+      "course_outcome": "CO2"
+    },
+    {
+      "unit_no": 3,
+      "title": "Distributed Storage & High-Throughput Pipelines",
+      "topics": [
+        "Google File System (GFS) & Hadoop Distributed File System (HDFS)",
+        "Distributed key-value stores: DynamoDB and Bigtable architecture",
+        "Partitioning strategies: Consistent hashing and virtual nodes",
+        "Stream processing and distributed message queues: Kafka and Google Cloud Pub/Sub"
+      ],
+      "course_outcome": "CO3"
+    },
+    {
+      "unit_no": 4,
+      "title": "Fault Tolerance, Security, and Cloud Architecture",
+      "topics": [
+        "Byzantine fault tolerance and fail-stop recovery",
+        "Disaster recovery planning: RTO (Recovery Time Objective) and RPO (Recovery Point Objective)",
+        "Cloud identity management, Zero Trust architecture, and IAM roles",
+        "Multi-cloud resilience and container orchestration with Kubernetes"
+      ],
+      "course_outcome": "CO4"
+    }
+  ]
+}
+

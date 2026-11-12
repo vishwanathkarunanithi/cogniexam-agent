@@ -1,0 +1,64 @@
+================================================================================
+ COGNIEXAM: SMART QUESTION PAPER BLOOM'S AUDIT & ANSWER KEY GENERATOR
+ Instructions for Evaluation & Demo
+================================================================================
+
+Dear Mam,
+
+This project directly solves your problem statement:
+"When a faculty or evaluator uploads any examination question paper,
+ the system automatically audits and computes its Bloom's Taxonomy score
+ and synthesizes a complete, canonical Model Answer Key with step-by-step
+ marking rubrics."
+
+--------------------------------------------------------------------------------
+HOW TO RUN THE APPLICATION (1 STEP):
+--------------------------------------------------------------------------------
+On Windows:
+  Simply double-click the file named:
+  -->  RUN_APP.bat
+
+It will automatically launch your web browser at: http://localhost:8501
+
+--------------------------------------------------------------------------------
+HOW TO TEST THE CORE PROBLEM STATEMENT (IN 1 MINUTE):
+--------------------------------------------------------------------------------
+1. In Tab 1 ("Upload Question Paper ➔ Bloom Score & Answer Key"):
+   - Click the button:
+     "📋 Load Sample University Question Paper"
+     (Or upload your own Question Paper PDF / text).
+
+2. Click the big blue button:
+   "🚀 Analyze Question Paper & Generate Answer Key".
+
+3. Within seconds, the AI Agent Swarm delivers:
+   a. Overall Bloom's Cognitive Score (e.g. 4.2 / 6.0) & OBE Balance Verdict.
+   b. Visual Bar Chart & Tier breakdown:
+      - Lower-Order Thinking (L1 Remember & L2 Understand) %
+      - Middle-Order Thinking (L3 Apply & L4 Analyze) %
+      - Higher-Order Thinking (L5 Evaluate & L6 Create) %
+   c. Individual Question Cards:
+      - Bloom's Level Badge (L1 to L6) with Action Verbs.
+      - Pedagogical Justification explaining why it belongs to that level.
+   d. Complete Answer Key:
+      - Canonical Model Answers for every question.
+      - Granular Step-by-Step Marking Rubrics (e.g., Step 1: 3 marks, Step 2: 4 marks).
+   e. Download Buttons:
+      - Instant download of the full certified report in Markdown or JSON!
+
+--------------------------------------------------------------------------------
+ADDITIONAL CAPABILITIES IN OTHER TABS:
+--------------------------------------------------------------------------------
+- Tab 2: Author a brand new exam paper from syllabus with Bloom constraints.
+- Tab 3: Automated student answer grading with partial credit and diagnostic feedback.
+- Tab 4: Cloud-native deployment architecture on Google Cloud.
+
+--------------------------------------------------------------------------------
+LIVE CLOUD INTEGRATION:
+--------------------------------------------------------------------------------
+This project is connected directly to Google Gemini Cloud AI via the configured
+API key, and also includes an intelligent local fallback so it functions seamlessly
+anywhere, anytime.
+
+Thank you!
+================================================================================
