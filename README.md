@@ -1,3 +1,13 @@
+---
+title: CogniExam AI Agent
+emoji: 🎓
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # CogniExam: AI-Driven Smart Examination Design & Bloom's Taxonomy Assessment Agent
 
 CogniExam is an autonomous multi-agent academic system designed for higher education institutions, universities, and accreditation compliance (NBA, NAAC, ABET). It automates the extraction, cognitive depth auditing, canonical answer key synthesis, and step-by-step rubric generation for university examination question papers.
