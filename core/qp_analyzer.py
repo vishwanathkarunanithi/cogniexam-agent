@@ -72,10 +72,11 @@ class QuestionPaperAnalyzer:
                 continue
 
             if not department and any(k in line_upper for k in [
-                "DEPARTMENT", "DIVISION", "DISCIPLINE", "BRANCH", "PROGRAM"
+                "DEPARTMENT", "DIVISION", "DISCIPLINE", "BRANCH"
             ]):
-                department = line
-                continue
+                if not any(k in line_upper for k in ["PROGRAMMING", "REGISTER", "SEMESTER", "SUBJECT", "REGULATION"]):
+                    department = line
+                    continue
 
             if any(k in line_upper for k in ["EXAMINATION", "ASSESSMENT", "TERM TEST", "SEMESTER", "MID-TERM"]):
                 exam_session = line
@@ -87,6 +88,7 @@ class QuestionPaperAnalyzer:
                 institution = "ACADEMIC EXAMINATION BOARD"
 
         clean_inst = re.sub(r"(?i)question\s*paper", "", institution).strip().strip('|').strip()
+        clean_inst = re.sub(r"[\d®'\"\.\,\:\-]{2,}$", "", clean_inst).strip()
         formal_title = f"{clean_inst} - OFFICIAL MODEL ANSWER KEY & BLOOM'S EVALUATION SCHEME"
 
         detected_course = ""
@@ -95,6 +97,9 @@ class QuestionPaperAnalyzer:
             if m_course and not any(k in line.upper() for k in ["REGISTER", "UNIVERSITY", "EXAMINATION", "SEMESTER", "REGULATION", "TIME", "COMMON SUBJECT", "PART A"]):
                 detected_course = m_course.group(1).strip()
                 break
+
+        if not department or department == detected_course or "PROGRAMMING" in department.upper():
+            department = "DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING"
 
         return {
             "institution": clean_inst,
@@ -547,7 +552,8 @@ class QuestionPaperAnalyzer:
         # STEP 1: PARSING
         # ---------------------------------------------------------------------
         header_info = self.extract_institution_header(paper_text)
-        if (not course_title or "18CS53" in course_title or course_title == "Course Assessment") and header_info.get("detected_course"):
+        # Automatically adopt course title extracted directly from the actual question paper document
+        if header_info.get("detected_course"):
             course_title = header_info["detected_course"]
         raw_questions = self.parse_and_extract_questions(paper_text)
         agent_trace.append({

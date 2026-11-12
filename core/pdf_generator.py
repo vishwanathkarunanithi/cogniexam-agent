@@ -214,12 +214,15 @@ class AcademicPDFGenerator:
 
         # 1. Formal Institutional Header
         inst_name = str(result.get("institution_name") or "INSTITUTION OF HIGHER EDUCATION").strip().strip('|').strip().upper()
-        dept = str(result.get("department") or "DEPARTMENT OF ACADEMIC ASSESSMENT").strip().strip('|').strip().upper()
+        dept = str(result.get("department") or "DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING").strip().strip('|').strip().upper()
         course_title = str(result.get("course_title") or "COURSE ASSESSMENT").strip().strip('|').strip().upper()
         NumberedCanvas.current_institution = inst_name
 
         story.append(Paragraph(inst_name, self.styles['InstTitle']))
-        story.append(Paragraph(dept, self.styles['DeptSubtitle']))
+        if dept and dept != course_title and "PROGRAMMING" not in dept:
+            story.append(Paragraph(dept, self.styles['DeptSubtitle']))
+        else:
+            story.append(Paragraph("DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING", self.styles['DeptSubtitle']))
         story.append(Paragraph("OFFICIAL MODEL ANSWER KEY AND EVALUATION SCHEME", self.styles['DocTypeBanner']))
         
         # Clean 3-column metadata table (no stray pipes, perfectly balanced on A4)

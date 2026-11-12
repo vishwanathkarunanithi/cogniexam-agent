@@ -121,7 +121,7 @@
                 if (file.name.endsWith('.pdf')) {
                     const formData = new FormData();
                     formData.append('file', file);
-                    formData.append('course_title', courseTitle);
+                    formData.append('course_title', '');
 
                     setLoading(true);
                     try {
@@ -197,7 +197,8 @@
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = `Official_Model_Answer_Key_${result.course_title.replace(/\s+/g, '_')}.pdf`;
+                    const safeTitle = (result.course_title || 'Assessment').replace(/[^a-zA-Z0-9_\-]/g, '_');
+                    a.download = `Official_Model_Answer_Key_${safeTitle}.pdf`;
                     document.body.appendChild(a);
                     a.click();
                     a.remove();

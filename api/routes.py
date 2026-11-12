@@ -142,11 +142,12 @@ def download_answer_key_pdf(payload: dict):
     """Generates a formal, publication-grade academic PDF answer key."""
     try:
         pdf_bytes = pdf_generator.generate_pdf_bytes(payload)
-        safe_name = payload.get("course_title", "Assessment").replace(" ", "_").replace("/", "_")
+        raw_name = str(payload.get("course_title", "Assessment")).strip()
+        safe_name = re.sub(r"[^\w\-]", "_", raw_name).strip("_")
         return Response(
             content=pdf_bytes,
             media_type="application/pdf",
-            headers={"Content-Disposition": f"attachment; filename=Official_Model_Answer_Key_{safe_name}.pdf"}
+            headers={"Content-Disposition": f'attachment; filename="Official_Model_Answer_Key_{safe_name}.pdf"'}
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"PDF Generation failed: {str(e)}")
