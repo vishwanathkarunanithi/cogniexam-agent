@@ -24,6 +24,6 @@ ENV HOME=/home/user \
 WORKDIR /home/user/app
 COPY --chown=user:user . .
 
-EXPOSE 7860
+EXPOSE 8000 7860 10000
 
-CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["sh", "-c", "uvicorn server:app --host 0.0.0.0 --port ${PORT:-8000}"]
